@@ -1,0 +1,98 @@
+<html>
+<head>
+    {% load staticfiles %}
+    <link rel = "stylesheet" href="{% static 'Account/style/main.css' %}">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.4/nouislider.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.4/nouislider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
+</head>
+<body>
+
+{% block topbar %} {% include 'Account/topbar.html' %} {% endblock %}
+{% block sidebar %} {% include 'Account/sidebar.html' %} {% endblock %}
+
+<center><h3>Просмотр снимка</h3></center>
+<div style="margin-left:20%;">
+  <p><b>Patient ID: </b> {{ series.patient_id }}</p>
+  <p><b>Study ID: </b> {{ series.study_uid }}</p>
+  <p><b>Series ID: </b> {{ series.series_uid }}</p>
+  <p><b>Voxels: </b> {{ voxels.shape }}</p>
+</div>
+<br /> <br /> 
+<center>
+  <div><span id="imageCounter">1</span>/{{ voxels.shape.2 }}</div>
+  <img id="imageBox" src="#"><br/>
+  <br /> <br />
+
+  <div style = "width: 40%">
+    <div id="slice-slider"></div>
+  </div>
+  <br />
+  <a class="waves-effect waves-light btn" onclick="previous();return false;"><i class = "material-icons left">arrow_back</i> Назад </a>
+  <a class="waves-effect waves-light btn" onclick="next();return false;"><i class = "material-icons right">arrow_forward</i> Вперед </a>
+</center>
+<br />
+  <script>
+    var slider = document.getElementById('slice-slider');
+    noUiSlider.create(slider, {
+      start: [1,],
+      tooltips: true,
+      step: 1,
+      orientation: 'horizontal', // 'horizontal' or 'vertical'
+      range: {
+        'min': 0,
+        'max': {{ voxels.shape }},
+      },
+      format: wNumb({
+        decimals: 0
+      }),
+    });
+
+    slider.addEventListener('click', function () {
+      getSlice(slider.noUiSlider.get());
+    });
+  </script>
+
+  <script>
+    var imageCounter = 0;
+
+    document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/0.png';
+
+    function previous() {
+      imageCounter--;
+      if(imageCounter < 0) {
+        imageCounter = {{ voxels.shape.2|add:"-1" }};
+      }
+      document.getElementById("imageCounter").innerHTML = imageCounter+1;
+      document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
+    }
+
+    function next() {
+        imageCounter++;
+        if(imageCounter >= {{ voxels.shape.2 }}) {
+          imageCounter = 0;
+        }
+        document.getElementById("imageCounter").innerHTML = imageCounter+1;
+        document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
+    }
+
+    function getSlice(image_id) {
+      if(image_id >= {{ voxels.shape.2 }}) {
+        image_id = 0;
+      }
+      if(image_id < 0) {
+        image_id = {{ voxels.shape.2|add:"-1" }};
+      }
+      document.getElementById("imageCounter").innerHTML = image_id;
+      document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + image_id + '.png';
+    }
+
+  </script>
+
+  <!-- <script src = "{% static 'Slicer/js/viewer.js' %}"> </script> -->
+</body>
+</html>

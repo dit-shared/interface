@@ -1,0 +1,6 @@
+/static/*
+/media/*
+/venv/*
+/tmp/*
+/research/*
+*.pyc

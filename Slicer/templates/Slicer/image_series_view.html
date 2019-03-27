@@ -16,11 +16,79 @@
 {% block sidebar %} {% include 'Account/sidebar.html' %} {% endblock %}
 
 <center><h3>Просмотр снимка</h3></center>
-<div style="margin-left:20%;">
+
+<div class = "row">
+  <div class = "col s12 m4 l2"></div>
+  <div class = "col s12 m4 l8">
   <p><b>Patient ID: </b> {{ series.patient_id }}</p>
   <p><b>Study ID: </b> {{ series.study_uid }}</p>
   <p><b>Series ID: </b> {{ series.series_uid }}</p>
-  <p><b>Voxels: </b> {{ voxels.shape }}</p>
+
+  <ul class="collapsible">
+      <li>
+        <div class="collapsible-header"><i class="material-icons">info</i> </b> Расширенная информация </div>
+          <div class="collapsible-body">
+              <p><b>BitsAllocated: </b> {{ series.BitsAllocated }}</p>
+              <p><b>BitsStored: </b> {{ series.BitsStored }}</p>
+              <p><b>Columns: </b> {{ series.Columns }}</p>
+              <p><b>Rows: </b> {{ series.Rows }}</p>
+              <p><b>HighBit: </b> {{ series.HighBit }}</p>
+              <p><b>InStackPositionNumber: </b> {{ series.InStackPositionNumber }}</p>
+              <p><b>PixelRepresentation: </b> {{ series.PixelRepresentation }}</p>
+              <p><b>SamplesPerPixel: </b> {{ series.SamplesPerPixel }}</p>
+              <p><b>TemporalPositionIndex: </b> {{ series.TemporalPositionIndex }}</p>
+              <p><b>AccessionNumber: </b> {{ series.AccessionNumber }}</p>
+              <p><b>AcquisitionDate: </b> {{ series.AcquisitionDate }}</p>
+              <p><b>AcquisitionDateTime: </b> {{ series.AcquisitionDateTime }}</p>
+              <p><b>AcquisitionTime: </b> {{ series.AcquisitionTime }}</p>
+              <p><b>ContentDate: </b> {{ series.ContentDate }}</p>
+              <p><b>ContentTime: </b> {{ series.ContentTime }}</p>
+              <p><b>ConvolutionKernel: </b> {{ series.ConvolutionKernel }}</p>
+              <p><b>DerivationDescription: </b> {{ series.DerivationDescription }}</p>
+              <p><b>DeviceSerialNumber: </b> {{ series.DeviceSerialNumber }}</p>
+              <p><b>ExposureModulationType: </b> {{ series.ExposureModulationType }}</p>
+              <p><b>FilterType: </b> {{ series.FilterType }}</p>
+              <p><b>InstitutionAddress: </b> {{ series.InstitutionAddress }}</p>
+              <p><b>InstitutionName: </b> {{ series.InstitutionName }}</p>
+              <p><b>InstitutionalDepartmentName: </b> {{ series.InstitutionalDepartmentName }}</p>
+              <p><b>IssuerOfPatientID: </b> {{ series.IssuerOfPatientID }}</p>
+              <p><b>Manufacturer: </b> {{ series.Manufacturer }}</p>
+              <p><b>ManufacturerModelName: </b> {{ series.ManufacturerModelName }}</p>
+              <p><b>Modality: </b> {{ series.Modality }}</p>
+              <p><b>PatientAge: </b> {{ series.PatientAge }}</p>
+              <p><b>PatientBirthDate: </b> {{ series.PatientBirthDate }}</p>
+              <p><b>PatientID: </b> {{ series.PatientID }}</p>
+              <p><b>PatientPosition: </b> {{ series.PatientPosition }}</p>
+              <p><b>PatientSex: </b> {{ series.PatientSex }}</p>
+              <p><b>PerformedProcedureStepID: </b> {{ series.PerformedProcedureStepID }}</p>
+              <p><b>PerformedProcedureStepStartDate: </b> {{ series.PerformedProcedureStepStartDate }}</p>
+              <p><b>PerformedProcedureStepStartTime: </b> {{ series.PerformedProcedureStepStartTime }}</p>
+              <p><b>PhotometricInterpretation: </b> {{ series.PhotometricInterpretation }}</p>
+              <p><b>ProtocolName: </b> {{ series.ProtocolName }}</p>
+              <p><b>RetrieveAETitle: </b> {{ series.RetrieveAETitle }}</p>
+              <p><b>RotationDirection: </b> {{ series.RotationDirection }}</p>
+              <p><b>ScanOptions: </b> {{ series.ScanOptions }}</p>
+              <p><b>ScheduledProcedureStepEndDate: </b> {{ series.ScheduledProcedureStepEndDate }}</p>
+              <p><b>ScheduledProcedureStepEndTime: </b> {{ series.ScheduledProcedureStepEndTime }}</p>
+              <p><b>ScheduledProcedureStepStartDate: </b> {{ series.ScheduledProcedureStepStartDate }}</p>
+              <p><b>ScheduledProcedureStepStartTime: </b> {{ series.ScheduledProcedureStepStartTime }}</p>
+              <p><b>SeriesDate: </b> {{ series.SeriesDatec }}</p>
+              <p><b>SeriesDescription: </b> {{ series.SeriesDescription }}</p>
+              <p><b>SeriesTime: </b> {{ series.SeriesTime }}</p>
+              <p><b>SoftwareVersions: </b> {{ series.SoftwareVersions }}</p>
+              <p><b>SpecificCharacterSet: </b> {{ series.SpecificCharacterSet }}</p>
+              <p><b>StackID: </b> {{ series.StackID }}</p>
+              <p><b>StationAETitle: </b> {{ series.StationAETitle }}</p>
+              <p><b>StationName: </b> {{ series.StationName }}</p>
+              <p><b>StudyDate: </b> {{ series.StudyDate }}</p>
+              <p><b>StudyID: </b> {{ series.StudyID }}</p>
+              <p><b>StudyStatusID: </b> {{ series.StudyStatusID }}</p>
+              <p><b>StudyTime: </b> {{ series.StudyTime }}</p>
+        </div>
+      </li>
+  </ul>
+  </div>
+  <div class = "col s12 m4 l2"></div>
 </div>
 <br /> <br /> 
 <center>
@@ -36,7 +104,16 @@
   <a class="waves-effect waves-light btn" onclick="next();return false;"><i class = "material-icons right">arrow_forward</i> Вперед </a>
 </center>
 <br />
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems);
+    });            
+</script>
+
   <script>
+    var imageCounter = 0;
     var slider = document.getElementById('slice-slider');
     noUiSlider.create(slider, {
       start: [1,],
@@ -58,8 +135,6 @@
   </script>
 
   <script>
-    var imageCounter = 0;
-
     document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/0.png';
 
     function previous() {
@@ -78,6 +153,10 @@
         }
         document.getElementById("imageCounter").innerHTML = imageCounter+1;
         document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
+
+        slider.noUiSlider.updateOptions({
+          start: imageCounter + 1,
+        });
     }
 
     function getSlice(image_id) {
@@ -87,6 +166,7 @@
       if(image_id < 0) {
         image_id = {{ voxels.shape.2|add:"-1" }};
       }
+      imageCounter = image_id;
       document.getElementById("imageCounter").innerHTML = image_id;
       document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + image_id + '.png';
     }

@@ -1,4 +1,10 @@
 function sendFeedbackForm() {
+    let chkMail = function(mail) {
+      var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      return re.test(mail);
+    }
+
+
     const url = '/account/feedback';
     let token = document.getElementsByName("csrfmiddlewaretoken")[0].getAttribute("value")
 
@@ -58,24 +64,29 @@ function sendFeedbackForm() {
         let title = document.getElementById("feedback_title").value
         let text = document.getElementById("feedback_text").value
         let mail = document.getElementById("feedback_mail").value
-        console.log(token, title, text, mail)
 
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                title: title,
-                text: text,
-                mail: mail,
-            },
-            success: (function(response) {
-                if (!response["success"]) {
-                    swal("Ошибка!", "Похоже на сервере возникла ошибка", "error");
-                } else {
-                    swal("Выполнено", "Запрос отправлен." + response["message"], "success");
-                }
-            }),
-        });
+        if (title.length < 5 || text.length < 10) {
+          swal("Ошибка!", "Заполните все поля!", "error");
+        } else if (!chkMail(mail)) {
+          swal("Ой...", "Вы уверены в правильности написания своей почты?", "warning")
+        } else {
+          $.ajax({
+              type: "POST",
+              url: url,
+              data: {
+                  title: title,
+                  text: text,
+                  mail: mail,
+              },
+              success: (function(response) {
+                  if (!response["success"]) {
+                      swal("Ошибка!", "Похоже на сервере возникла ошибка", "error");
+                  } else {
+                      swal("Выполнено", "Запрос отправлен." + response["message"], "success");
+                  }
+              }),
+          });
+        }
     });
 }
 

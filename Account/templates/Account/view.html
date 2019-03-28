@@ -5,7 +5,8 @@
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>  
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>  
+        <link rel="stylesheet" href="{% static 'Account/style/views.css' %}" />
     </head>
     <body>
         {% block topbar %} {% include 'Account/topbar.html' %} {% endblock %}
@@ -16,18 +17,27 @@
         <ul class="collapsible">
             {% for d in data %}
                 <li>
-			        <div class="collapsible-header"><i class="material-icons">local_see</i><b>{{d.id}}. </b> {{ d.series.series_uid }} </div>
+			        <div class="collapsible-header"><i class="material-icons series_icon">local_see</i><p class="truncate"><b>{{d.id}}. </b> {{ d.series.series_uid }} </p></div>
                     <div class="collapsible-body">
-                        <p><b>Slices: </b> {{ d.voxels.shape.2 }} </p>
-                        <p><b>Patient ID: </b> {{ d.series.patient_id }} </p>
-                        <p><b>Study ID: </b> {{d.series.study_uid}} </p>
-                        <!-- <p><b>Слои:</b> {{ r.snapshots }}</p>-->
-                        <img src = '/media/images/{{ d.series.media_path }}/{% widthratio d.voxels.shape.2 2 1 %}.png' />
-                        <br /><br /><a href = "/series/view?id={{d.series.id}}">Полный просмотр</a>
+                        <div class = "row">
+                            <div class = "col s12 m6 series_info">
+                                <p class="truncate"><b>Slices: </b> {{ d.voxels.shape.2 }} </p>
+                                <p class="truncate"><b>Patient ID: </b> {{ d.series.patient_id }} </p>
+                                <p class="truncate"><b>Study ID: </b> {{d.series.study_uid}} </p>
+                                <!-- <p><b>Слои:</b> {{ r.snapshots }}</p>-->
+                                <br /><br /><a href = "/series/view?id={{d.series.id}}">Полный просмотр</a>
+                            </div>
+                            <div class = "col s12 m6">
+                                <img src = '/media/images/{{ d.series.media_path }}/{% widthratio d.voxels.shape.2 2 1 %}.png' 
+                                    class="series_preview" />
+                            </div>
+                        </div>
                     </div>
                 </li>
             {% endfor %}
         </ul>
+
+        {% block footer %} {% include 'Account/footer.html' %} {% endblock %}
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {

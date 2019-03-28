@@ -15,8 +15,8 @@
     {% block sidebar %} {% include 'Account/sidebar.html' %} {% endblock %}
 
     <div class="row">
-        <div class="col s4"></div>
-        <div class="col s4">
+        <div class="col s4 .hide-on-small-only"></div>
+        <div class="col s12 m4">
             <div class="card hoverable">
                 <div class="card-image">
                     <img src="https://visualpharm.com/assets/30/User-595b40b85ba036ed117da56f.svg">
@@ -33,10 +33,11 @@
                 </div>
             </div>
         </div>
-        <div class="col s5"></div>
     </div>
     {% csrf_token %}
     <script src = "{% static 'Account/js/send_feedback.js' %}"> </script>
+
+    {% block footer %} {% include 'Account/footer.html' %} {% endblock %}
 </body>
 
 </html>

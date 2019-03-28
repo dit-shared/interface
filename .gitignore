@@ -4,3 +4,4 @@
 /tmp/*
 /research/*
 *.pyc
+*.sqlite3

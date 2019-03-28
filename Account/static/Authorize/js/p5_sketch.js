@@ -2,13 +2,14 @@ let Width =  window.innerWidth - 20;
 let heigth = 500;
 let vers = new Array();
 let edges = new Array();
-let VerR = 9;
+let VerR = 15;
 let AbsVel = 0.3;
 let maxVel = 0.9, stableVel = 0.22;
 let NumVers = 80;
 let minConnectDistance = 80;
 let mouseNearA = 20;
 let mouseNearK = 2;
+let lineWidth = 0;
 
 function getRndInteger(min, max) {
     return Math.floor(random(min, max)) + min;
@@ -91,7 +92,15 @@ function draw() {
     for (let i = 0; i < vers.length; i++) {
         for (let j = i + 1; j < vers.length; j++) {
             if (getVerDistance(vers[i], vers[j]) <= minConnectDistance) {
-                line(vers[i].x, vers[i].y, vers[j].x, vers[j].y)
+                if (lineWidth == 0) {
+                    line(vers[i].x, vers[i].y, vers[j].x, vers[j].y);
+                } else {
+                    fill(random(255), random(255), random(255));
+                    quad(vers[i].x - lineWidth / 2, vers[i].y - lineWidth / 2,
+                        vers[i].x + lineWidth / 2, vers[i].y + lineWidth / 2,
+                        vers[j].x + lineWidth / 2, vers[j].y + lineWidth / 2,
+                        vers[j].x - lineWidth / 2, vers[j].y - lineWidth / 2);
+                }
             }
         }
     }

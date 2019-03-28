@@ -1,0 +1,14 @@
+.series_preview {
+    width: 50%;
+}
+
+.series_icon {
+    margin-top: 1%;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="series_icon"] {
+      margin-top: 4.5%;
+    }
+  }

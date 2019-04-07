@@ -28,8 +28,10 @@ def export_to_png(path, voxels):
             current_k = k
             
         # Rescaling grey scale between 0-255
-        pixels[i,j] = int((float(voxels[i,j,k]) / float(max_values[k])) * 255.0)
-        
+        pixels[i,j] = int((float(voxels[i,j,k]) / float(max_values[k])) * 250.0)
+
+    print("PIXELS: ", pixels[0, 0], pixels[1, 1])
+
     _save_image("{}/{}.png".format(path, k), img)
 
 def _get_maximum_values(voxels):

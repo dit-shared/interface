@@ -30,3 +30,12 @@ def deAuth(request):
 	if 'id' in request.session:
 		del request.session['id']
 	return HttpResponseRedirect('/')
+
+def error_404(request):
+	return render(request, 'ServerError/index.html', {'error_type': 404, 'error_header': 'Page not found!'})
+
+def error_500(request):
+	return render(request, 'ServerError/index.html', {'error_type': 500, 'error_header': 'Internal server error'})
+
+def check_error_page(request):
+	return render(request, 'ServerError/index.html', {'error_type': 500, 'error_header': 'Internal server error'})

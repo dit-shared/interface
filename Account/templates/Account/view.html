@@ -1,49 +1,163 @@
 <html>
-    <head>
-        {% load staticfiles %}
-        <link rel = "stylesheet" href="{% static 'Account/style/main.css' %}">
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>  
-        <link rel="stylesheet" href="{% static 'Account/style/views.css' %}" />
-    </head>
-    <body>
-        {% block topbar %} {% include 'Account/topbar.html' %} {% endblock %}
-        {% block sidebar %} {% include 'Account/sidebar.html' %} {% endblock %}
 
-        <center><h3> Просмотр снимков </h3></center>
+<head>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'Account/style/main.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="{% static 'Account/style/views.css' %}" />
 
-        <ul class="collapsible">
-            {% for d in data %}
-                <li>
-			        <div class="collapsible-header"><i class="material-icons series_icon">local_see</i><p class="truncate"><b>{{d.id}}. </b> {{ d.series.series_uid }} </p></div>
-                    <div class="collapsible-body">
-                        <div class = "row">
-                            <div class = "col s12 m6 series_info">
-                                <p class="truncate"><b>Slices: </b> {{ d.voxels.shape.2 }} </p>
-                                <p class="truncate"><b>Patient ID: </b> {{ d.series.patient_id }} </p>
-                                <p class="truncate"><b>Study ID: </b> {{d.series.study_uid}} </p>
-                                <!-- <p><b>Слои:</b> {{ r.snapshots }}</p>-->
-                                <br /><br /><a href = "/series/view?id={{d.series.id}}">Полный просмотр</a>
-                            </div>
-                            <div class = "col s12 m6">
-                                <img src = '/media/images/{{ d.series.media_path }}/{% widthratio d.voxels.shape.2 2 1 %}.png' 
-                                    class="series_preview" />
+    <style>
+        .center-flexbox {
+            display: flex;
+            flew-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preloader-background {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #eee;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            p {
+                padding-top: 120px;
+                margin-left: -60px;
+                opacity: 0.8;
+            }
+        }
+
+        .blinking {
+            animation: blinker 0.5s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            $('.preloader-background').delay(1700).fadeOut('slow');
+
+            $('.preloader-wrapper')
+                .delay(1700)
+                .fadeOut();
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Preloader and it's background. -->
+    <div class="preloader-background">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+        <p class="blinking">Loading</p>
+    </div>
+
+    {% block topbar %} {% include 'Account/topbar.html' %} {% endblock %}
+    {% block sidebar %} {% include 'Account/sidebar.html' %} {% endblock %}
+
+    <center>
+        <h3> Просмотр снимков </h3>
+    </center>
+    <div class="row">
+        <div class="center-flexbox">
+            <div class="col s1"></div>
+            <div class="col s11 center-align">
+                <ul class="collapsible">
+                    {% for d in data %}
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons series_icon">local_see</i>
+                            <p class="truncate"><b>{{d.id}}. </b> {{ d.series.series_uid }} </p>
+                        </div>
+                        <div class="collapsible-body">
+                            <div class="row">
+                                <div class="col s12 m6 series_info">
+                                    <p class="truncate"><b>Slices: </b> {{ d.voxels.shape.2 }} </p>
+                                    <p class="truncate"><b>Patient ID: </b> {{ d.series.patient_id }} </p>
+                                    <p class="truncate"><b>Study ID: </b> {{d.series.study_uid}} </p>
+                                    <!-- <p><b>Слои:</b> {{ r.snapshots }}</p>-->
+                                    <br /><br /><a href="/series/view?id={{d.series.id}}">Полный просмотр</a>
+                                </div>
+                                <div class="col s12 m6">
+                                    <img src='/media/images/{{ d.series.media_path }}/{% widthratio d.voxels.shape.2 2 1 %}.png'
+                                        class="series_preview" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col s1"></div>
 
-        {% block footer %} {% include 'Account/footer.html' %} {% endblock %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('.collapsible');
+            var instances = M.Collapsible.init(elems);
+        });
+    </script>
+</body>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var elems = document.querySelectorAll('.collapsible');
-                var instances = M.Collapsible.init(elems);
-            });            
-        </script>
-    </body>
 </html>

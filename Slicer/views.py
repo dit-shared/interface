@@ -3,7 +3,7 @@ from django.conf import settings
 from django.shortcuts import render
 
 from .models import ImageSeries
-from Account.models import User
+from Account.models import User, ExtendedUser
 
 def image_series_view(request):
     if 'id' not in request.session:
@@ -12,6 +12,7 @@ def image_series_view(request):
     if not User.objects.filter(id=id):
         return HttpResponseRedirect('/')
     user = User.objects.get(id=id)
+    extUser = ExtendedUser.objects.get(userID=id)
 
     if 'id' in request.GET:
         series = ImageSeries.objects.get(id=request.GET['id'])
@@ -21,5 +22,6 @@ def image_series_view(request):
             'series': series,
             'voxels': voxels,
             'user': user,
+            'extUser': extUser,
         })
     return HttpResponse('Invalid request')

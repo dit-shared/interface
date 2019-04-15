@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import HashPassword, User, Feedback
+from .models import HashPassword, User, Feedback, ExtendedUser
 from Frontend import settings
 from Frontend.TelegramBot import send as telegram_send
 from Slicer.models import ImageSeries
@@ -16,14 +16,14 @@ def runShell(path, sh_input = ''):
     returncode = shellscript.returncode
     return returncode, stdout, stderr
 
-def buildJSONRespose(responseData):
+def buildJSONResponse(responseData):
 	return HttpResponse(json.dumps(responseData), content_type="application/json")
 
 def getResearchView(request):
     if 'id' not in request.GET:
-        return buildJSONRespose({"ok": False, "error": "Invalid request"})
+        return buildJSONResponse({"ok": False, "error": "Invalid request"})
     if not ImageSeries.objects.filter(id=request.GET['id']):
-        return buildJSONRespose({"ok": False, "error": "This research doesn`t exists"})
+        return buildJSONResponse({"ok": False, "error": "This research doesn`t exists"})
     series = ImageSeries.objects.get(id=request.GET['id'])
     return buildJSONResponse({"ok": True, "dirname": series.media_path})
 
@@ -31,14 +31,16 @@ def account(request):
     if 'id' not in request.session:
         return HttpResponseRedirect('/')
     id = request.session['id']
-    user = User.objects.filter(id=id)[0]
-    return render(request, "Account/index.html", {"user": user})
+    user = User.objects.get(id=id)
+    extUser = ExtendedUser.objects.get(userID=id)
+    return render(request, "Account/index.html", {"user": user, "extUser": extUser})
 
 def view(request):
     if 'id' not in request.session:
         return HttpResponseRedirect('/')
     id = request.session['id']
     user = User.objects.filter(id=id)[0]
+    extUser = ExtendedUser.objects.get(userID=id)
 
     data = list()
 
@@ -46,27 +48,30 @@ def view(request):
     for i, s in enumerate(series):
         data.append({"id": i + 1, "series": s, "voxels": s.voxels})
 
-    return render(request, "Account/view.html", {"user": user, "data": data})
+    return render(request, "Account/view.html", {"user": user, "data": data, "extUser": extUser})
 
 def upload(request):
     if 'id' not in request.session:
         return HttpResponseRedirect('/')
     id = request.session['id']
     user = User.objects.filter(id=id)[0]
-    return render(request, "Account/upload.html", {"user": user})
+    extUser = ExtendedUser.objects.get(userID=id)
+
+    return render(request, "Account/upload.html", {"user": user, "extUser": extUser})
 
 def predict_view(request):
     if 'id' not in request.session:
         return HttpResponseRedirect('/')
     id = request.session['id']
     user = User.objects.filter(id=id)[0]
+    extUser = ExtendedUser.objects.get(userID=id)
 
-    return render(request, "Account/predict.html", {"user": user})
+    return render(request, "Account/predict.html", {"user": user, "extUser": extUser})
 
 def predict(request):
     runCommand(["docker", "exec", "-i", "-t", "root_jupyter_1_826396f9a729", "/bin/bash", "/radio/temp/for_npcmr/run.sh"])
     #runCommand(["/radio/temp/for_npcmr/run.sh"])
-    return buildJSONRespose({"message": "", "success": True})
+    return buildJSONResponse({"message": "", "success": True})
 
 def encPasswd(request):
     if 'passwd' not in request.GET:
@@ -75,9 +80,9 @@ def encPasswd(request):
 
 def feedback(request):
     if 'id' not in request.session:
-        return buildJSONRespose({"message": 'Error: you are not authorized', "success": True})
+        return buildJSONResponse({"message": 'Error: you are not authorized', "success": True})
     if 'title' not in request.POST or 'text' not in request.POST:
-        return buildJSONRespose({"message": 'Error: invalid request data', "success": True})
+        return buildJSONResponse({"message": 'Error: invalid request data', "success": True})
     
     feedback = Feedback.objects.create(user_id=request.session['id'], title=request.POST['title'],
                 text=request.POST['text'], time=datetime.datetime.now())
@@ -85,8 +90,29 @@ def feedback(request):
 
     if settings.TELEGRAM_FEEDBACK:
         user = User.objects.filter(id=request.session['id'])[0]
-        telegram_msg = 'Title: ' + feedback.title + '\nText: ' + feedback.text + '\nFrom: ' + str(user)
+        telegram_msg = 'Title: ' + feedback.title + '\nText: ' + feedback.text +\
+            '\nMail: ' + user.mail  + '\nFrom: ' + str(user)
         telegram_send(settings.FeedbackTelegramChannelToken, settings.FeedbackTelegramChatId, telegram_msg)
 
-    return buildJSONRespose({"message": "", "success": True})
+    return buildJSONResponse({"message": "", "success": True})
+
+def changeAccount(request):
+    if "id" not in request.session:
+        return HttpResponseRedirect("/")
+    print(request.POST)
+    return HttpResponse("OK")
+
+def uploadAva(request):
+    if "id" not in request.session:
+        return HttpResponseRedirect("/")
+    if "file" not in request.FILES:
+        return buildJSONResponse({"ok": False, "message": "Неправильный запрос"})
+    
+    id = request.session['id']
+    extUser = ExtendedUser.objects.get(userID=id)
+
+    extUser.ava = request.FILES["file"]
+    extUser.save()
+
+    return buildJSONResponse({"ok": True})
 

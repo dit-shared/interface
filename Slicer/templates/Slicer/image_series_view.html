@@ -9,13 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.4/nouislider.min.css"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.4/nouislider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+    <script src = "{% static 'Slicer/js/updateDocComment.js' %}"></script>
+
+    <script src = "{% static 'papaparse.min.js' %}"></script>
+
     <link rel="stylesheet" href="{% static 'Slicer/style/viewer.css' %}" />
 </head>
 <body>
 
 {% block topbar %} {% include 'Account/topbar.html' %} {% endblock %}
 {% block sidebar %} {% include 'Account/sidebar.html' %} {% endblock %}
-
 <center><h3>Просмотр снимка</h3></center>
 
 <div class = "row">
@@ -24,96 +29,122 @@
   <p class="truncate"><b>Patient ID: </b> {{ series.patient_id }}</p>
   <p class="truncate"><b>Study ID: </b> {{ series.study_uid }}</p>
   <p class="truncate"><b>Series ID: </b> {{ series.series_uid }}</p>
-
-  <ul class="collapsible">
-      <li>
-        <div class="collapsible-header"><i class="material-icons">info</i> </b> Расширенная информация </div>
-          <div class="collapsible-body">
-              <p class="truncate"><b>BitsAllocated: </b> {{ series.BitsAllocated }}</p>
-              <p class="truncate"><b>BitsStored: </b> {{ series.BitsStored }}</p>
-              <p class="truncate"><b>Columns: </b> {{ series.Columns }}</p>
-              <p class="truncate"><b>Rows: </b> {{ series.Rows }}</p>
-              <p class="truncate"><b>HighBit: </b> {{ series.HighBit }}</p>
-              <p class="truncate"><b>InStackPositionNumber: </b> {{ series.InStackPositionNumber }}</p>
-              <p class="truncate"><b>PixelRepresentation: </b> {{ series.PixelRepresentation }}</p>
-              <p class="truncate"><b>SamplesPerPixel: </b> {{ series.SamplesPerPixel }}</p>
-              <p class="truncate"><b>TemporalPositionIndex: </b> {{ series.TemporalPositionIndex }}</p>
-              <p class="truncate"><b>AccessionNumber: </b> {{ series.AccessionNumber }}</p>
-              <p class="truncate"><b>AcquisitionDate: </b> {{ series.AcquisitionDate }}</p>
-              <p class="truncate"><b>AcquisitionDateTime: </b> {{ series.AcquisitionDateTime }}</p>
-              <p class="truncate"><b>AcquisitionTime: </b> {{ series.AcquisitionTime }}</p>
-              <p class="truncate"><b>ContentDate: </b> {{ series.ContentDate }}</p>
-              <p class="truncate"><b>ContentTime: </b> {{ series.ContentTime }}</p>
-              <p class="truncate"><b>ConvolutionKernel: </b> {{ series.ConvolutionKernel }}</p>
-              <p class="truncate"><b>DerivationDescription: </b> {{ series.DerivationDescription }}</p>
-              <p class="truncate"><b>DeviceSerialNumber: </b> {{ series.DeviceSerialNumber }}</p>
-              <p class="truncate"><b>ExposureModulationType: </b> {{ series.ExposureModulationType }}</p>
-              <p class="truncate"><b>FilterType: </b> {{ series.FilterType }}</p>
-              <p class="truncate"><b>InstitutionAddress: </b> {{ series.InstitutionAddress }}</p>
-              <p class="truncate"><b>InstitutionName: </b> {{ series.InstitutionName }}</p>
-              <p class="truncate"><b>InstitutionalDepartmentName: </b> {{ series.InstitutionalDepartmentName }}</p>
-              <p class="truncate"><b>IssuerOfPatientID: </b> {{ series.IssuerOfPatientID }}</p>
-              <p class="truncate"><b>Manufacturer: </b> {{ series.Manufacturer }}</p>
-              <p class="truncate"><b>ManufacturerModelName: </b> {{ series.ManufacturerModelName }}</p>
-              <p class="truncate"><b>Modality: </b> {{ series.Modality }}</p>
-              <p class="truncate"><b>PatientAge: </b> {{ series.PatientAge }}</p>
-              <p class="truncate"><b>PatientBirthDate: </b> {{ series.PatientBirthDate }}</p>
-              <p class="truncate"><b>PatientID: </b> {{ series.PatientID }}</p>
-              <p class="truncate"><b>PatientPosition: </b> {{ series.PatientPosition }}</p>
-              <p class="truncate"><b>PatientSex: </b> {{ series.PatientSex }}</p>
-              <p class="truncate"><b>PerformedProcedureStepID: </b> {{ series.PerformedProcedureStepID }}</p>
-              <p class="truncate"><b>PerformedProcedureStepStartDate: </b> {{ series.PerformedProcedureStepStartDate }}</p>
-              <p class="truncate"><b>PerformedProcedureStepStartTime: </b> {{ series.PerformedProcedureStepStartTime }}</p>
-              <p class="truncate"><b>PhotometricInterpretation: </b> {{ series.PhotometricInterpretation }}</p>
-              <p class="truncate"><b>ProtocolName: </b> {{ series.ProtocolName }}</p>
-              <p class="truncate"><b>RetrieveAETitle: </b> {{ series.RetrieveAETitle }}</p>
-              <p class="truncate"><b>RotationDirection: </b> {{ series.RotationDirection }}</p>
-              <p class="truncate"><b>ScanOptions: </b> {{ series.ScanOptions }}</p>
-              <p class="truncate"><b>ScheduledProcedureStepEndDate: </b> {{ series.ScheduledProcedureStepEndDate }}</p>
-              <p class="truncate"><b>ScheduledProcedureStepEndTime: </b> {{ series.ScheduledProcedureStepEndTime }}</p>
-              <p class="truncate"><b>ScheduledProcedureStepStartDate: </b> {{ series.ScheduledProcedureStepStartDate }}</p>
-              <p class="truncate"><b>ScheduledProcedureStepStartTime: </b> {{ series.ScheduledProcedureStepStartTime }}</p>
-              <p class="truncate"><b>SeriesDate: </b> {{ series.SeriesDatec }}</p>
-              <p class="truncate"><b>SeriesDescription: </b> {{ series.SeriesDescription }}</p>
-              <p class="truncate"><b>SeriesTime: </b> {{ series.SeriesTime }}</p>
-              <p class="truncate"><b>SoftwareVersions: </b> {{ series.SoftwareVersions }}</p>
-              <p class="truncate"><b>SpecificCharacterSet: </b> {{ series.SpecificCharacterSet }}</p>
-              <p class="truncate"><b>StackID: </b> {{ series.StackID }}</p>
-              <p class="truncate"><b>StationAETitle: </b> {{ series.StationAETitle }}</p>
-              <p class="truncate"><b>StationName: </b> {{ series.StationName }}</p>
-              <p class="truncate"><b>StudyDate: </b> {{ series.StudyDate }}</p>
-              <p class="truncate"><b>StudyID: </b> {{ series.StudyID }}</p>
-              <p class="truncate"><b>StudyStatusID: </b> {{ series.StudyStatusID }}</p>
-              <p class="truncate"><b>StudyTime: </b> {{ series.StudyTime }}</p>
-        </div>
-      </li>
-  </ul>
   </div>
   <div class = "col s12 m4 l2"></div>
 </div>
-<br /> <br /> 
-<center>
-  <div><span id="imageCounter">1</span>/{{ voxels.shape.2 }}</div>
-  <img id="imageBox" src="#" class="series_viewer">
-  <br />  <br />  <br />
-
-  <div style = "width: 40%">
-    <div id="slice-slider"></div>
+<div class = "row">
+  <div class = "col s1">
   </div>
-  <br />
-  <a class="waves-effect waves-light btn" onclick="previous();return false;"><i class = "material-icons left">arrow_back</i> Назад </a>
-  <a class="waves-effect waves-light btn" onclick="next();return false;"><i class = "material-icons right">arrow_forward</i> Вперед </a>
-</center>
+  <div class = "col s10">
+    <div class = "row">
+      <div class = "col s3 leftbar_tools">
+         <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="col s10">
+                <textarea id="doc_comment" name = "doc_comment" class="materialize-textarea" data-length="250"></textarea>
+                <label for="doc_comment">Комментарий доктора</label>
+              </div>
+              <div class = "col s1" style="margin-top: 10%;">
+                <a class="btn-floating btn-small waves-effect waves-light red" onclick="sendDocComment()"><i class="material-icons">edit</i></a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class = "col s6">
+      <center>
+        <div><span id="imageCounter">1</span>/{{ voxels.shape.2 }}</div>
+        <a href = "" id = "imageLink">
+            <img id="imageBox" src="#" class="series_viewer">
+        </a>
+        <br />  <br />  <br />
+
+        <div style = "width: 60%">
+          <div id="slice-slider"></div>
+        </div>
+        <br />
+        <a class="waves-effect waves-light btn" onclick="previous();return false;"><i class = "material-icons left">arrow_back</i> Назад </a>
+        <a class="waves-effect waves-light btn" onclick="next();return false;"><i class = "material-icons right">arrow_forward</i> Вперед </a>
+      </center>
+      </div>
+      <div class="col s3 rightbar_tools">
+        <div class="input-field col s12">
+          <select id = "changePallete">
+            <option value="1">Стандартная</option>
+            <option value="2">COLORMAP_BONE</option>
+            <option value="3">COLORMAP_JET</option>
+            <option value="4">COLORMAP_WINTER</option>
+            <option value="5">COLORMAP_RAINBOW</option>
+            <option value="6">COLORMAP_OCEAN</option>
+            <option value="7">COLORMAP_HOT</option>
+          </select>
+          <label>Выберите цветовую маску</label>
+        </div>
+
+        <a class="waves-effect waves-light btn-small" onclick="uploadPredictionFileForm()"><i class="material-icons left">file_upload</i>Загрузить предсказ.</a>
+
+      </div>
+    </div>
+  </div>
+  <div class = "col s1">
+  </div>
+</div>
+
 <br />
 
+<div id = "predictionImage">
+  <div>
+    <div class = "popupCloseButton" id = "popupCloseButton">  <a class="btn-floating btn waves-effect waves-light red"><i class="material-icons">close</i></a></div>
+    <canvas id = "predictionCanvas"></canvas>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col s12 m4 l2"></div>
+  <div class = "col s12 m4 l8">
+  <ul class="collapsible">
+        <li>
+          <div class="collapsible-header"><i class="material-icons">info</i> </b> Расширенная информация </div>
+            <div class="collapsible-body">
+                <p class="truncate"><b>FilterType: </b> {{ series.FilterType }}</p>
+                <p class="truncate"><b>PatientAge: </b> {{ series.PatientAge }}</p>
+                <p class="truncate"><b>PatientBirthDate: </b> {{ series.PatientBirthDate }}</p>
+                <p class="truncate"><b>PatientID: </b> {{ series.PatientID }}</p>
+                <p class="truncate"><b>PatientPosition: </b> {{ series.PatientPosition }}</p>
+                <p class="truncate"><b>PatientSex: </b> {{ series.PatientSex }}</p>
+                <p class="truncate"><b>ScanOptions: </b> {{ series.ScanOptions }}</p>
+                <p class="truncate"><b>SeriesDescription: </b> {{ series.SeriesDescription }}</p>
+                <p class="truncate"><b>SeriesTime: </b> {{ series.SeriesTime }}</p>
+                <p class="truncate"><b>StationName: </b> {{ series.StationName }}</p>
+                <p class="truncate"><b>StudyDate: </b> {{ series.StudyDate }}</p>
+                <p class="truncate"><b>StudyID: </b> {{ series.StudyID }}</p>
+                <p class="truncate"><b>StudyStatusID: </b> {{ series.StudyStatusID }}</p>
+                <p class="truncate"><b>StudyTime: </b> {{ series.StudyTime }}</p>
+          </div>
+        </li>
+    </ul>
+  <div class = "col s12 m4 l2"></div>
+  {% csrf_token %}
+</div>
+<br />
+
+
 <script>
+    const SERIES_ID = {{ series.id }};
+    $("textarea#doc_comment").val("{{seriesInfo.doctorComment}}"); 
+
     document.addEventListener('DOMContentLoaded', function() {
         var elems = document.querySelectorAll('.collapsible');
         var instances = M.Collapsible.init(elems);
-    });            
-</script>
+    });         
+    $(document).ready(function(){
+      $('select').formSelect();
+    });   
+    $(document).ready(function() {
+      $('textarea#doc_comment').characterCounter();
+    });
 
-  <script>
     var imageCounter = 0;
     var slider = document.getElementById('slice-slider');
     noUiSlider.create(slider, {
@@ -130,13 +161,9 @@
       }),
     });
 
-    slider.addEventListener('mouseout', function () {
-      getSlice(slider.noUiSlider.get());
-    });
-  </script>
-
-  <script>
     document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/0.png';
+    document.getElementById("imageLink").href = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
+
 
     function previous() {
       imageCounter--;
@@ -144,10 +171,10 @@
         imageCounter = {{ voxels.shape.2|add:"-1" }};
       }
       document.getElementById("imageCounter").innerHTML = imageCounter + 1;
-      document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
-
+      document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + DICOM_PALLETE + '.png';
+      document.getElementById("imageLink").href = '/media/images/{{ series.media_path }}/' + imageCounter + DICOM_PALLETE + '.png';
       slider.noUiSlider.updateOptions({
-          start: imageCounter + 1,
+        start: imageCounter + 1,
       });
     }
 
@@ -157,7 +184,8 @@
           imageCounter = 0;
         }
         document.getElementById("imageCounter").innerHTML = imageCounter + 1;
-        document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
+        document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + DICOM_PALLETE + '.png';
+        document.getElementById("imageLink").href = '/media/images/{{ series.media_path }}/' + imageCounter + DICOM_PALLETE + '.png';
 
         slider.noUiSlider.updateOptions({
           start: imageCounter + 1,
@@ -173,10 +201,13 @@
       }
       imageCounter = image_id;
       document.getElementById("imageCounter").innerHTML = image_id;
-      document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + image_id + '.png';
+      document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + image_id + DICOM_PALLETE + '.png';
+      document.getElementById("imageLink").href = '/media/images/{{ series.media_path }}/' + image_id + DICOM_PALLETE + '.png';
     }
-  </script>
+</script>
 
-  <!-- <script src = "{% static 'Slicer/js/viewer.js' %}"> </script> -->
+<script src = "{% static 'Slicer/js/uploadPredictionFile.js' %}"></script>
+<script src = "{% static 'Slicer/js/viewer.js' %}"></script>
+
 </body>
 </html>

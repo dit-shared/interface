@@ -1,21 +1,24 @@
-var imageCounter = 0;
+let DICOM_PALLETE = "";
 
-document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/0.png';
+slider.addEventListener('mouseout', function () {
+  getSlice(slider.noUiSlider.get());
+});
+slider.addEventListener('click', function () {
+  getSlice(slider.noUiSlider.get());
+});
+slider.addEventListener('mousemove', function () {
+  getSlice(slider.noUiSlider.get());
+});
 
-function previous() {
-  imageCounter--;
-  if(imageCounter < 0) {
-    imageCounter = {{ voxels.shape.2|add:"-1" }};
+$("#changePallete").change(function() {
+  var str = "";
+  $( "#changePallete option:selected" ).each(function() {
+    str = $( this ).text();
+  });
+  if (str == "Стандартная") {
+    DICOM_PALLETE = "";
+  } else {
+    DICOM_PALLETE = str;
   }
-  document.getElementById("imageCounter").innerHTML = imageCounter+1;
-  document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
-}
-
-function next() {
-    imageCounter++;
-    if(imageCounter >= {{ voxels.shape.2 }}) {
-      imageCounter = 0;
-    }
-    document.getElementById("imageCounter").innerHTML = imageCounter+1;
-    document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
-}
+  getSlice(slider.noUiSlider.get());
+});

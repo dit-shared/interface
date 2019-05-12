@@ -31,7 +31,7 @@ def deAuth(request):
 		del request.session['id']
 	return HttpResponseRedirect('/')
 
-def error_404(request):
+def error_404(request, exception):
 	return render(request, 'ServerError/index.html', {'error_type': 404, 'error_header': 'Page not found!'})
 
 def error_500(request):

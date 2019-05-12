@@ -13,7 +13,6 @@ logger.setLevel(logging.DEBUG)
 class DicomImportException(Exception):
     pass
 
-
 def dicom_datasets_from_zip(zip_file):
     datasets = []
     for entry in zip_file.namelist():
@@ -34,7 +33,7 @@ def dicom_datasets_from_zip(zip_file):
 
         try:
             dataset = dicom.read_file(temp_file)
-            print(dataset.pixel_array)
+            dataset.pixel_array
             datasets.append(dataset)
         except dicom.errors.InvalidDicomError as e:
             msg = 'Skipping invalid DICOM file "{}": {}'

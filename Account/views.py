@@ -116,3 +116,7 @@ def uploadAva(request):
 
     return buildJSONResponse({"ok": True})
 
+def statistics(request):
+    if "id" not in request.session:
+        return HttpResponseRedirect("/")
+    return render(request, "Account/statistics.html")

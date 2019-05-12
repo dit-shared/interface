@@ -31,7 +31,7 @@ class ExtendedUser(models.Model):
     standartAvaDir = 'avatars/'
 
     def __str__(self):
-        return self.userID
+        return "Extended User ({})".format(self.userID)
 
 class Feedback(models.Model):
     user_id = models.IntegerField(default=0)

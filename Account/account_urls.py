@@ -12,4 +12,5 @@ urlpatterns = [
     path('changeAccount', views.changeAccount, name='changeAccount'),
     # temporary handlers
     path('encpass', views.encPasswd, name='encPasswd'),
+    path('statistics', views.statistics, name='statistics'),
 ]

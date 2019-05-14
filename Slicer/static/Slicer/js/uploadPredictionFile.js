@@ -61,7 +61,7 @@ function drawSquare(locX, locY, diamX, diamY) {
         ctx.arc(locX, locY, diamX, 0, 2 * Math.PI);
         ctx.closePath();
 
-        ctx.lineWidth = diamX / 7;
+        ctx.lineWidth = diamX / 5;
         ctx.strokeStyle = "red";
         ctx.fillStyle = "red";
         ctx.stroke(); 

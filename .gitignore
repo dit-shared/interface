@@ -1,7 +1,7 @@
 /static/*
-/media/*
 /venv/*
 /tmp/*
+/media/*
 /research/*
 *.pyc
-*.sqlite3
+.sqlite3

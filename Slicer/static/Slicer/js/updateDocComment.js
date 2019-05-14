@@ -26,7 +26,7 @@ function sendDocComment() {
           if (!response["ok"]) {
             M.toast({html: response["msg"]});
           } else {
-            M.toast({html: "Комментарий успешно изменен"});
+            M.toast({html: "Комментарий сохранён"});
           }
       }),
   });

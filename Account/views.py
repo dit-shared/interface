@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import HashPassword, User, Feedback, ExtendedUser
 from Frontend import settings
 from Frontend.TelegramBot import send as telegram_send
-from Slicer.models import ImageSeries
+from Slicer.models import ImageSeries, SeriesInfo
 import os, json, time, subprocess, datetime
 
 def runCommand(commands):
@@ -44,9 +44,9 @@ def view(request):
 
     data = list()
 
-    series = ImageSeries.objects.all()
+    series = SeriesInfo.objects.all()
     for i, s in enumerate(series):
-        data.append({"id": i + 1, "series": s, "voxels": s.voxels})
+        data.append({"id": i + 1, "series": s})
 
     return render(request, "Account/view.html", {"user": user, "data": data, "extUser": extUser})
 

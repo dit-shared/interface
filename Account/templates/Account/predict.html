@@ -11,8 +11,6 @@
     <body>
         {% block topbar %} {% include 'Account/topbar.html' %} {% endblock %}
         {% block sidebar %} {% include 'Account/sidebar.html' %} {% endblock %}
-
-        <center><h3>Предсказать показания</h3></center>
         {% csrf_token %}
         <center>
             <a id = "predictFormButton" class="waves-effect waves-light btn" onclick="sendPredictForm()"><i class="material-icons left">cloud</i>Предсказать</a>

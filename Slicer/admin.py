@@ -4,12 +4,12 @@ from .models import ImageSeries, SeriesInfo
 
 @admin.register(SeriesInfo)
 class SeriesInfoAdmin(admin.ModelAdmin):
-    readonly_fields = ("doctorComment", "doctorCommentDate", "seriesID")
+    readonly_fields = ('doctorComment', 'doctorCommentDate', 'seriesID', 'AccessionNumber',
+        'AcquisitionDate', 'FilterType', 'PatientAge', 'PatientBirthDate',
+        'PatientPosition', 'PatientSex', 'ScanOptions',
+        'SeriesDate', 'SeriesDescription', 'SeriesTime', 'SoftwareVersions',
+        'StationName', 'StudyDate', 'StudyStatusID', 'StudyTime', 'Manufacturer')
 
 @admin.register(ImageSeries)
 class ImageSeriesAdmin(admin.ModelAdmin):
-    readonly_fields = ('voxel_file', 'patient_id', 'study_uid', 'series_uid', 'AccessionNumber',
-        'AcquisitionDate', 'FilterType', 'PatientAge', 'PatientBirthDate', 'PatientID',
-        'PatientPosition', 'PatientSex', 'ScanOptions',
-        'SeriesDate', 'SeriesDescription', 'SeriesTime', 'SoftwareVersions',
-        'StationName', 'StudyDate', 'StudyID', 'StudyStatusID', 'StudyTime')
+    readonly_fields = ('patient_id', 'study_uid', 'series_uid')

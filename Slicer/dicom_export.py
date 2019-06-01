@@ -1,82 +1,24 @@
-import logging
-from itertools import product
-import numpy as np
-import sys
-from PIL import Image
-
 import pydicom as dicom
-import os
-import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
+import sys, os, cv2
 
-
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-COLOR_MAPS = ("COLORMAP_BONE", "COLORMAP_JET", "COLORMAP_WINTER", "COLORMAP_RAINBOW",
-    "COLORMAP_OCEAN", "COLORMAP_HOT", "COLORMAP_HSV")
+COLOR_MAPS = ("COLORMAP_BONE", "COLORMAP_JET", "COLORMAP_HOT")
+cmaps = {"bone": plt.cm.bone, "gray": plt.cm.gray}
 
 def export_to_png(path, dic_ds):
     # make it True if you want in PNG format
     image = ""
     # Specify the .dcm folder path
     for n, ds in enumerate(dic_ds):
-        pixel_array_numpy = ds.pixel_array
-        image = str(n) + ".png"
-        cv2.imwrite(os.path.join(path, image), pixel_array_numpy)
-        imgray = cv2.imread(os.path.join(path, image))
-
-        for cmap in COLOR_MAPS:
-            im_color = cv2.applyColorMap(imgray, getattr(cv2, cmap))
-            cv2.imwrite(os.path.join(path, "{}{}.png".format(n, cmap)), im_color)
-
-    # imageShape = (voxels.shape[0], voxels.shape[1])
-    # img = Image.new("I", imageShape)
-    # pixels = img.load()
-    
-    # interestingKValues = []
-    # current_k = 0
-    
-    # max_values = _get_maximum_values(voxels)
-    
-    # for k, i, j in product(range(voxels.shape[2]), range(voxels.shape[0]), range(voxels.shape[1])):
+        image = str(n) + "_{}.png"
         
-    #     # initialize every time k changes
-    #     if current_k != k:
-    #         _save_image("{}/{}.png".format(path, current_k), img)
-    #         img = Image.new("L", imageShape)
-    #         pixels = img.load()
-    #         current_k = k
-            
-    #     # Rescaling grey scale between 0-255
-    #     pixels[i,j] = int((float(voxels[i,j,k]) / float(max_values[k])) * 250.0)
-
-    # print("PIXELS: ", pixels[0, 0], pixels[1, 1])
-
-    # _save_image("{}/{}.png".format(path, k), img)
-
-def _get_maximum_values(voxels):
-    max_values = []
-    max_value = sys.maxsize*-1
-    current_k = 0
-    
-    for k, i, j in product(range(voxels.shape[2]), range(voxels.shape[0]), range(voxels.shape[1])):
-        if current_k != k:
-            max_values.append(max_value)
-            max_value = sys.maxsize*-1
-            current_k = k
-            
-        if voxels[i,j,k] > max_value:
-            max_value = voxels[i,j,k]
-            
-    max_values.append(max_value)
-    
-    return max_values
-
-def _save_image(filepath, image):
-    try:
-        image.save(filepath, "PNG")
-    except (KeyError, IOError):
-        msg = 'Cannot create images for file: {}'
-        logger.info(msg.format(filepath))
-        
+        for cmName, cm in cmaps.items():
+            fig = plt.figure(frameon=False, dpi=300)
+            ax = plt.Axes(fig, [0., 0., 1., 1.])
+            ax.set_axis_off()
+            fig.add_axes(ax)
+            ax.imshow(ds.pixel_array, cmap=cm)     
+            plt.savefig(os.path.join(path, image.format(cmName)))
+            plt.close()

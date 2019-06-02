@@ -15,53 +15,17 @@
     <!-- <script src="{% static 'p5/addons/p5.dom.min.js' %}"></script>  -->
 
     <script src = "{% static 'Account/loading.js' %}"></script>
+    <script src = "{% static 'Account/js/search_research.js' %}"></script>
     <!-- <script src = "{% static 'Account/js/preloader_p5.js' %}"></script> -->
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', initResearchList);
+
+        function initResearchList() {
             var elems = document.querySelectorAll('.collapsible');
             var instances = M.Collapsible.init(elems);
-        });
+        }
     </script>
-
-    <style>
-        .center-flexbox {
-            display: flex;
-            flew-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-        }
-        /*
-        .loader {
-            position: fixed;
-            z-index: 99;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: black;
-        }*/
-
-        .loader.hidden {
-            animation: fadeOut 3s;
-            animation-fill-mode: forwards;
-        }
-
-        @keyframes fadeOut {
-            100% {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-
-        .showBase {
-            display: none;
-        }
-
-    </style>
 </head>
 
 <body>
@@ -71,30 +35,45 @@
     {% block topbar %} {% include 'Account/topbar.html' %} {% endblock %}
     {% block sidebar %} {% include 'Account/sidebar.html' %} {% endblock %}
 
-    <center>
-        <h3> Просмотр снимков </h3>
-    </center>
+    <div class="row">
+        <div class = "col s2"></div>
+        <form class="col s7">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="searchResearchInput" type="text" class="validate">
+              <label for="searchResearchInput">Поиск исследования</label>
+              <span class="helper-text">Введите номер исследования</span>
+            </div>
+          </div>
+        </form>
+        <div class = "col s2" style="padding-top: 2%;">
+            <a class="waves-effect waves-light btn" onclick = "searchResearchButton()">
+                <i class="material-icons right">search</i>
+                найти
+            </a>
+        </div>
+        <div class = "col s1"></div>
+    </div>
     <div class="row">
         <div class="center-flexbox">
             <div class="col s1"></div>
-            <div class="col s11 center-align">
+            <div class="col s11 center-align" id = "researchListContainer">
                 <ul class="collapsible">
                     {% for d in data %}
                     <li class = "show{{ d.id }} showBase">
                         <div class="collapsible-header"><i class="material-icons series_icon">local_see</i>
-                            <p class="truncate"><b>{{d.id}}. </b> {{ d.series.series_uid }} </p>
+                            <p class="truncate"><b>{{d.id}}. </b> {{ d.series.SeriesInstanceUID }} </p>
                         </div>
                         <div class="collapsible-body">
                             <div class="row">
                                 <div class="col s12 m6 series_info">
-                                    <p class="truncate"><b>Slices: </b> {{ d.voxels.shape.2 }} </p>
-                                    <p class="truncate"><b>Patient ID: </b> {{ d.series.patient_id }} </p>
-                                    <p class="truncate"><b>Study ID: </b> {{d.series.study_uid}} </p>
-                                    <!-- <p><b>Слои:</b> {{ r.snapshots }}</p>-->
+                                    <p class="truncate"><b>Patient ID: </b> {{ d.series.PatientID }} </p>
+                                    <p class="truncate"><b>Study ID: </b> {{ d.series.StudyID }} </p>
+                                    <p><b>Слои:</b> {{ d.series.slicesCnt }}</p>
                                     <br /><br /><a href="/series/view?id={{d.series.id}}">Полный просмотр</a>
                                 </div>
                                 <div class="col s12 m6">
-                                    <img src='/media/images/{{ d.series.media_path }}/{% widthratio d.voxels.shape.2 2 1 %}.png'
+                                    <img src='/media/images/{{ d.series.slices_dir }}/{{ d.series.previewSlice }}'
                                         class="series_preview" />
                                 </div>
                             </div>
@@ -106,6 +85,7 @@
             <div class="col s1"></div>
         </div>
     </div>
+    {% csrf_token %}
 </body>
 
 </html>

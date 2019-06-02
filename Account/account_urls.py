@@ -10,6 +10,8 @@ urlpatterns = [
     path('feedback', views.feedback, name='feedback'),
     path('uploadAva', views.uploadAva, name='uploadAva'),
     path('changeAccount', views.changeAccount, name='changeAccount'),
+    path('searchResearch', views.searchResearch, name='searchResearch'),
+
     # temporary handlers
     path('encpass', views.encPasswd, name='encPasswd'),
     path('statistics', views.statistics, name='statistics'),

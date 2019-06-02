@@ -13,6 +13,7 @@ class SeriesInfo(models.Model):
     doctorComment = models.CharField(max_length=256, default="")
     doctorCommentDate = models.DateTimeField(default=datetime.date.today, null=True, blank=True)
     seriesID = models.IntegerField()
+    slicesCnt = models.IntegerField(null=True, blank=True)
 
     AccessionNumber = models.CharField(max_length=128)
     AcquisitionDate = models.CharField(max_length=128)
@@ -35,6 +36,7 @@ class SeriesInfo(models.Model):
     StudyTime = models.CharField(max_length=128)
     Manufacturer = models.CharField(max_length=128)
 
+    previewSlice = models.CharField(max_length=32, default="0_gray.png")
     slices_dir = models.CharField(max_length=128)
 
 class ImageSeries(models.Model):
@@ -69,6 +71,7 @@ class ImageSeries(models.Model):
 
         si = SeriesInfo.objects.create(seriesID=self.id)
         si.slices_dir = self.slices_dir
+        si.slicesCnt = len(dicom_datasets)
 
         for att in dir(dicom_datasets[0]):
             try:

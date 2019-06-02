@@ -20,13 +20,9 @@ def image_series_view(request):
     extUser = ExtendedUser.objects.get(userID=id)
 
     if 'id' in request.GET:
-        series = ImageSeries.objects.get(id=request.GET['id'])
         seriesInfo = SeriesInfo.objects.get(seriesID=request.GET['id'])
-        voxels = series.voxels
         
         return render(request, 'Slicer/image_series_view.html', {
-            'series': series,
-            'voxels': voxels,
             'user': user,
             'extUser': extUser,
             'seriesInfo': seriesInfo,
@@ -56,3 +52,15 @@ def changeDocComment(request):
         series.save()
         return buildJSONResponse({"ok": True})
     return buildJSONResponse({"ok": False, "msg": "Invalid request"})
+
+def setPreview(request):
+    if 'id' in request.POST and 'fileName' in request.POST:
+        seriesID = request.POST["id"]
+        fileName = request.POST["fileName"]
+
+        series = SeriesInfo.objects.get(seriesID=seriesID)
+        series.previewSlice = fileName
+        series.save()
+        return buildJSONResponse({"ok": True})
+    return buildJSONResponse({"ok": False, "msg": "Invalid request"})
+

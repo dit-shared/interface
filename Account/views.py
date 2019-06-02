@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import HashPassword, User, Feedback, ExtendedUser
 from Frontend import settings
@@ -120,3 +121,13 @@ def statistics(request):
     if "id" not in request.session:
         return HttpResponseRedirect("/")
     return render(request, "Account/statistics.html")
+
+def searchResearch(request):
+    if "id" not in request.session:
+        return HttpResponseRedirect("/")
+    if "word" not in request.POST:
+        return HttpResponse("invalid request")
+    word = request.POST["word"]
+    res = SeriesInfo.objects.filter(SeriesInstanceUID="".join(word.split()))
+    res = serializers.serialize('json', res)
+    return buildJSONResponse({"ok": True, "res": res})

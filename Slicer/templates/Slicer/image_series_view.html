@@ -26,9 +26,9 @@
 <div class = "row">
   <div class = "col s12 m4 l2"></div>
   <div class = "col s12 m4 l8">
-  <p class="truncate"><b>Patient ID: </b> {{ series.patient_id }}</p>
-  <p class="truncate"><b>Study ID: </b> {{ series.study_uid }}</p>
-  <p class="truncate"><b>Series ID: </b> {{ series.series_uid }}</p>
+  <p class="truncate"><b>Patient ID: </b> {{ seriesInfo.PatientID }}</p>
+  <p class="truncate"><b>Study ID: </b> {{ seriesInfo.StudyID }}</p>
+  <p class="truncate"><b>Series ID: </b> {{ seriesInfo.SeriesInstanceUID }}</p>
   </div>
   <div class = "col s12 m4 l2"></div>
 </div>
@@ -54,7 +54,7 @@
       </div>
       <div class = "col s6">
       <center>
-        <div><span id="imageCounter">1</span>/{{ voxels.shape.2 }}</div>
+        <div><span id="imageCounter">1</span>/{{ seriesInfo.slicesCnt }}</div>
         <a href = "" id = "imageLink">
             <img id="imageBox" src="#" class="series_viewer">
         </a>
@@ -71,19 +71,20 @@
       <div class="col s3 rightbar_tools">
         <div class="input-field col s12">
           <select id = "changePallete">
-            <option value="1">Стандартная</option>
-            <option value="2">COLORMAP_BONE</option>
-            <option value="3">COLORMAP_JET</option>
-            <option value="4">COLORMAP_WINTER</option>
-            <option value="5">COLORMAP_RAINBOW</option>
-            <option value="6">COLORMAP_OCEAN</option>
-            <option value="7">COLORMAP_HOT</option>
+            <option value="1">gray</option>
+            <option value="2">bone</option>
           </select>
           <label>Выберите цветовую маску</label>
         </div>
 
         <a class="waves-effect waves-light btn-small" onclick="uploadPredictionFileForm()"><i class="material-icons left">file_upload</i>Загрузить предсказ.</a>
 
+        <p>
+          <label>
+            <input type="checkbox" class="filled-in" checked="checked" id = "isPreview" />
+            <span>Использовать как превью</span>
+          </label>
+      </p>
       </div>
     </div>
   </div>
@@ -108,20 +109,21 @@
         <li>
           <div class="collapsible-header"><i class="material-icons">info</i> </b> Расширенная информация </div>
             <div class="collapsible-body">
-                <p class="truncate"><b>FilterType: </b> {{ series.FilterType }}</p>
-                <p class="truncate"><b>PatientAge: </b> {{ series.PatientAge }}</p>
-                <p class="truncate"><b>PatientBirthDate: </b> {{ series.PatientBirthDate }}</p>
-                <p class="truncate"><b>PatientID: </b> {{ series.PatientID }}</p>
-                <p class="truncate"><b>PatientPosition: </b> {{ series.PatientPosition }}</p>
-                <p class="truncate"><b>PatientSex: </b> {{ series.PatientSex }}</p>
-                <p class="truncate"><b>ScanOptions: </b> {{ series.ScanOptions }}</p>
-                <p class="truncate"><b>SeriesDescription: </b> {{ series.SeriesDescription }}</p>
-                <p class="truncate"><b>SeriesTime: </b> {{ series.SeriesTime }}</p>
-                <p class="truncate"><b>StationName: </b> {{ series.StationName }}</p>
-                <p class="truncate"><b>StudyDate: </b> {{ series.StudyDate }}</p>
-                <p class="truncate"><b>StudyID: </b> {{ series.StudyID }}</p>
-                <p class="truncate"><b>StudyStatusID: </b> {{ series.StudyStatusID }}</p>
-                <p class="truncate"><b>StudyTime: </b> {{ series.StudyTime }}</p>
+                <p class="truncate"><b>FilterType: </b> {{ seriesInfo.FilterType }}</p>
+                <p class="truncate"><b>PatientAge: </b> {{ seriesInfo.PatientAge }}</p>
+                <p class="truncate"><b>PatientBirthDate: </b> {{ seriesInfo.PatientBirthDate }}</p>
+                <p class="truncate"><b>PatientID: </b> {{ seriesInfo.PatientID }}</p>
+                <p class="truncate"><b>PatientPosition: </b> {{ seriesInfo.PatientPosition }}</p>
+                <p class="truncate"><b>PatientSex: </b> {{ seriesInfo.PatientSex }}</p>
+                <p class="truncate"><b>ScanOptions: </b> {{ seriesInfo.ScanOptions }}</p>
+                <p class="truncate"><b>SeriesDescription: </b> {{ seriesInfo.SeriesDescription }}</p>
+                <p class="truncate"><b>SeriesTime: </b> {{ seriesInfo.SeriesTime }}</p>
+                <p class="truncate"><b>StationName: </b> {{ seriesInfo.StationName }}</p>
+                <p class="truncate"><b>StudyDate: </b> {{ seriesInfo.StudyDate }}</p>
+                <p class="truncate"><b>StudyID: </b> {{ seriesInfo.StudyID }}</p>
+                <p class="truncate"><b>StudyStatusID: </b> {{ seriesInfo.StudyStatusID }}</p>
+                <p class="truncate"><b>StudyTime: </b> {{ seriesInfo.StudyTime }}</p>
+                <p class="truncate"><b>Manufacturer: </b> {{ seriesInfo.Manufacturer }}</p>
           </div>
         </li>
     </ul>
@@ -130,9 +132,19 @@
 </div>
 <br />
 
-
 <script>
-    const SERIES_ID = {{ series.id }};
+    function updateIsPreview() {
+      if (previewSlice == imageName) {
+        $("#isPreview").prop("checked", true);
+      } else {
+        $("#isPreview").prop("checked", false);
+      }
+    }
+
+    let DICOM_PALLETE = "gray";
+    let imageName = "0_gray.png";
+    let previewSlice = "{{ seriesInfo.previewSlice }}";
+    const SERIES_ID = {{ seriesInfo.seriesID }};
     $("textarea#doc_comment").val("{{seriesInfo.doctorComment}}"); 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -149,61 +161,73 @@
     var imageCounter = 0;
     var slider = document.getElementById('slice-slider');
     noUiSlider.create(slider, {
-      start: [1,],
+      start: [0,],
       tooltips: true,
       step: 1,
       orientation: 'horizontal', // 'horizontal' or 'vertical'
       range: {
-        'min': 0,
-        'max': {{ voxels.shape }},
+        'min': 1,
+        'max': {{ seriesInfo.slicesCnt }},
       },
       format: wNumb({
         decimals: 0
       }),
     });
 
-    document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/0.png';
-    document.getElementById("imageLink").href = '/media/images/{{ series.media_path }}/' + imageCounter + '.png';
-
+    getSlice(1);
 
     function previous() {
       imageCounter--;
-      if(imageCounter < 0) {
-        imageCounter = {{ voxels.shape.2|add:"-1" }};
+      if(imageCounter < 1) {
+        imageCounter = {{ seriesInfo.slicesCnt }};
       }
-      document.getElementById("imageCounter").innerHTML = imageCounter + 1;
-      document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + DICOM_PALLETE + '.png';
-      document.getElementById("imageLink").href = '/media/images/{{ series.media_path }}/' + imageCounter + DICOM_PALLETE + '.png';
+      imageName = imageCounter - 1 + "_" + DICOM_PALLETE + '.png';
+      document.getElementById("imageCounter").innerHTML = imageCounter;
+      document.getElementById("imageBox").src = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
+      document.getElementById("imageLink").href = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
+
       slider.noUiSlider.updateOptions({
-        start: imageCounter + 1,
+        start: imageCounter,
       });
+
+      updateIsPreview();
     }
 
     function next() {
         imageCounter++;
-        if(imageCounter >= {{ voxels.shape.2 }}) {
-          imageCounter = 0;
+        if(imageCounter > {{ seriesInfo.slicesCnt }}) {
+          imageCounter = 1;
         }
-        document.getElementById("imageCounter").innerHTML = imageCounter + 1;
-        document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + imageCounter + DICOM_PALLETE + '.png';
-        document.getElementById("imageLink").href = '/media/images/{{ series.media_path }}/' + imageCounter + DICOM_PALLETE + '.png';
+        imageName = imageCounter - 1 + "_" + DICOM_PALLETE + '.png';
+        document.getElementById("imageCounter").innerHTML = imageCounter;
+        document.getElementById("imageBox").src = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
+        document.getElementById("imageLink").href = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
 
         slider.noUiSlider.updateOptions({
-          start: imageCounter + 1,
+          start: imageCounter,
         });
+        
+        updateIsPreview();
     }
 
     function getSlice(image_id) {
-      if(image_id >= {{ voxels.shape.2 }}) {
-        image_id = 0;
+      if(image_id > {{ seriesInfo.slicesCnt }}) {
+        image_id = 1;
       }
-      if(image_id < 0) {
-        image_id = {{ voxels.shape.2|add:"-1" }};
+      if(image_id < 1) {
+        image_id = {{ seriesInfo.slicesCnt }};
       }
       imageCounter = image_id;
+      imageName = image_id - 1 + "_" + DICOM_PALLETE + '.png';
       document.getElementById("imageCounter").innerHTML = image_id;
-      document.getElementById("imageBox").src = '/media/images/{{ series.media_path }}/' + image_id + DICOM_PALLETE + '.png';
-      document.getElementById("imageLink").href = '/media/images/{{ series.media_path }}/' + image_id + DICOM_PALLETE + '.png';
+      document.getElementById("imageBox").src = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
+      document.getElementById("imageLink").href = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
+
+      slider.noUiSlider.updateOptions({
+        start: image_id,
+      });
+
+      updateIsPreview();
     }
 </script>
 

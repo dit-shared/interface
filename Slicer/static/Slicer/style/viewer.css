@@ -1,5 +1,5 @@
 .series_viewer {
-    width: 70%;
+    width: 100%;
 }
 
 .leftbar_tools {
@@ -16,12 +16,12 @@
 	max-height: 50%;
 }
 
-@media only screen and (max-width: 768px) {
-    /* For mobile phones: */
+/*@media only screen and (max-width: 768px) {
+     For mobile phones: 
     [class*="series_viewer"] {
       width: 90%;
     }
-}
+}*/
 
 /* Popup box BEGIN */
 #predictionImage {

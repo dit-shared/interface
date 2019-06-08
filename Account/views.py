@@ -127,7 +127,10 @@ def searchResearch(request):
         return HttpResponseRedirect("/")
     if "word" not in request.POST:
         return HttpResponse("invalid request")
-    word = request.POST["word"]
-    res = SeriesInfo.objects.filter(SeriesInstanceUID="".join(word.split()))
+    word = "".join(request.POST["word"].split())
+    if word == "":
+        res = SeriesInfo.objects.all()
+    else:
+        res = SeriesInfo.objects.filter(SeriesInstanceUID__icontains=word)
     res = serializers.serialize('json', res)
     return buildJSONResponse({"ok": True, "res": res})

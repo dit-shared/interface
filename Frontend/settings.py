@@ -34,7 +34,6 @@ FeedbackTelegramChatId = "-1001398424643"
 
 # Application definition
 INSTALLED_APPS = [
-    'Dicom',
     'Slicer',
     'Account',
     'django.contrib.admin',

@@ -60,10 +60,10 @@ class ImageSeries(models.Model):
             dicom_datasets = dicom_datasets_from_zip(f)
         dicom_datasets.sort(key=lambda x: x.ImagePositionPatient[2])
 
-        self.slices_dir = hashlib.sha256(self.study_uid.encode()).hexdigest()
         self.patient_id = dicom_datasets[0].PatientID
         self.study_uid = dicom_datasets[0].StudyInstanceUID
         self.series_uid = dicom_datasets[0].SeriesInstanceUID
+        self.slices_dir = hashlib.sha256(self.study_uid.encode()).hexdigest()
 
         self._export_pngs(dicom_datasets)
 

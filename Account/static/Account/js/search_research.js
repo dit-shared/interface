@@ -1,4 +1,4 @@
-function searchResearchButton() {
+function searchResearch() {
 	const url = "/account/searchResearch";
 	let searchWord = $("#searchResearchInput").val();
 	
@@ -16,11 +16,6 @@ function searchResearchButton() {
 
     let token = document.getElementsByName("csrfmiddlewaretoken")[0].getAttribute("value");
     
-    if (searchWord.length == 0) {
-    	return;
-    }
-
-
     $.ajax({
         type: "POST",
         url: url,
@@ -78,3 +73,31 @@ function renderResearches(json) {
 		initResearchList();
 	}
 }
+
+$(document).ready(function() {
+    $("#searchResearchInput").keyup(function(event) {
+        // Enter
+        if (event.keyCode === 13) {
+            searchResearch();
+        }
+
+        // Nums
+        if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+            (event.keyCode >= 96 && event.keyCode <= 105)) { 
+            searchResearch();
+        }
+        // Dot
+        if (event.keyCode === 190) {
+            searchResearch();
+        }
+
+        // Letters
+        if (event.keyCode >= 65 && event.keyCode <= 90) {
+            searchResearch();
+        }
+        // Space, BackSpace, Delete
+        if (event.keyCode == 32 || event.keyCode == 8 || event.keyCode == 46) {
+            searchResearch();
+        }
+    });
+});

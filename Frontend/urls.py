@@ -11,7 +11,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('Account.auth_urls')),
     path('account/', include('Account.account_urls')),
-    path('dicom/', include('Dicom.urls')),
     path('series/', include('Slicer.urls')),
     path('check_error_page/', Account_views.check_error_page),
 ]

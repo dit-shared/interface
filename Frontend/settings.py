@@ -12,10 +12,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
-HOSTNAME = 'localhost'
-SERVER_IP = '127.0.0.1'
+HOSTNAME = 'med.mos-ai.ru'
+SERVER_IP = '163.172.157.232'
 
-ON_SERVER = False
 TELEGRAM_FEEDBACK = True
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ns7a0n4*a!l(a8nn+0a#25k#gu5vc-8lvbc$m2h1gi_!m41ev8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 # Telegram

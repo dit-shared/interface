@@ -5,7 +5,7 @@ from .models import HashPassword, User, Feedback, ExtendedUser
 from Frontend import settings
 from Frontend.TelegramBot import send as telegram_send
 from Slicer.models import ImageSeries, SeriesInfo
-import os, json, time, subprocess, datetime
+import os, json, time, subprocess, datetime, urllib
 
 def runCommand(commands):
     subprocess.run(commands)
@@ -90,9 +90,21 @@ def feedback(request):
     feedback.save()
 
     if settings.TELEGRAM_FEEDBACK:
+        client_ip = str(request.META['REMOTE_ADDR'])
+        geo_ip_key = '7b9395a73758350d433f400a27280e69'
+
+        geo_url = 'http://api.ipstack.com/{}?access_key={}'.format(client_ip, geo_ip_key)
+
+        with urllib.request.urlopen(geo_url) as url:
+            geo_info = json.loads(str(url.read(), 'utf-8'))
+
         user = User.objects.filter(id=request.session['id'])[0]
         telegram_msg = 'Title: ' + feedback.title + '\nText: ' + feedback.text +\
-            '\nMail: ' + user.mail  + '\nFrom: ' + str(user)
+            '\nMail: ' + user.mail  + '\nFrom: ' + str(user) + '\nIP: ' + client_ip
+
+        if geo_info["country_name"] != None and geo_info["city"] != None:     
+            telegram_msg += '\nCity: ' + geo_info['country_name'] + ' ' + geo_info['city']
+
         telegram_send(settings.FeedbackTelegramChannelToken, settings.FeedbackTelegramChatId, telegram_msg)
 
     return buildJSONResponse({"message": "", "success": True})

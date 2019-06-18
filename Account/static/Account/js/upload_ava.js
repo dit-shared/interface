@@ -1,5 +1,5 @@
 function uploadAva() {
-    const url = 'account/uploadAva';
+    const url = '/home/uploadAva';
     let token = document.getElementsByName("csrfmiddlewaretoken")[0].getAttribute("value")
 
     function csrfSafeMethod(method) {
@@ -7,7 +7,7 @@ function uploadAva() {
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
 
-    let uploadAvaForm = '<form id = "uploadAvaForm" action="/account/uploadAva" enctype="multipart/form-data">' +
+    let uploadAvaForm = '<form id = "uploadAvaForm" action="/home/uploadAva" enctype="multipart/form-data">' +
         '<div class="file-field input-field">' +
             '<div class="btn">' +
                 '<span>Загрузите файл</span>' +
@@ -69,7 +69,7 @@ function uploadAva() {
                 showConfirmButton: false,
                 timer: 1500
             }).then(() => {
-                window.location = "/account";
+                window.location = "/home";
             });
         }
     })

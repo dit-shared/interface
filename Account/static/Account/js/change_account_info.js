@@ -1,5 +1,5 @@
 function changeAccountInfo() {
-    const url = '/account/changeAccount';
+    const url = '/home/changeAccount';
     let token = document.getElementsByName("csrfmiddlewaretoken")[0].getAttribute("value")
 
     function csrfSafeMethod(method) {
@@ -95,7 +95,7 @@ function changeAccountInfo() {
                 timer: 1500
             })
 
-            window.location = "/account"
+            window.location = "/home"
         }
     })
 }

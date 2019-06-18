@@ -1,7 +1,7 @@
 function sendPredictForm() {
     let token = document.getElementsByName("csrfmiddlewaretoken")[0].getAttribute("value")
 
-    const url = '/account/predict/get';
+    const url = '/home/predict/get';
 
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection

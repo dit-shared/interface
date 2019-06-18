@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core.files.storage import default_storage
 from .models import HashPassword, User, Feedback, ExtendedUser
 from Frontend import settings
 from Frontend.TelegramBot import send as telegram_send
@@ -146,3 +147,17 @@ def searchResearch(request):
         res = SeriesInfo.objects.filter(SeriesInstanceUID__icontains=word)
     res = serializers.serialize('json', res)
     return buildJSONResponse({"ok": True, "res": res})
+
+def uploadResearch(request):
+    if "id" not in request.session:
+        return HttpResponseRedirect("/")
+    if "file" not in request.FILES:
+        return buildJSONResponse({"ok": False, "message": "Неправильный запрос"})
+    
+    file = request.FILES["file"]
+    if (file.name.split('.')[-1] != "zip"):
+        return buildJSONResponse({"ok": False, "message": "Файл должен иметь расширение .zip"})
+
+    fileName = default_storage.save("zips/"+file.name, file).split("/")[-1]
+
+    return buildJSONResponse({"ok": True, "filename": fileName})

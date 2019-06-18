@@ -5,14 +5,16 @@ from . import views
 from django.conf.urls.static import static
 from Frontend import settings
 from Account import auth as Account_views
+from Account import profile_views
 
 urlpatterns = [
 	path('', views.redirect),
     path('admin/', admin.site.urls),
     path('auth/', include('Account.auth_urls')),
-    path('account/', include('Account.account_urls')),
+    path('home/', include('Account.home_urls')),
     path('series/', include('Slicer.urls')),
-    path('check_error_page/', Account_views.check_error_page),
+    path('profile/<str:login>', profile_views.viewProfile),
+    # path('check_error_page/', Account_views.check_error_page),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -25,3 +25,11 @@
         visibility:visible;
     }
 }
+
+#progressUploadingResearch {
+    padding-left: 10%;
+}
+
+#progressUploadingResearch .statusText {
+
+}

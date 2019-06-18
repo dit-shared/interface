@@ -11,6 +11,7 @@ urlpatterns = [
     path('uploadAva', views.uploadAva, name='uploadAva'),
     path('changeAccount', views.changeAccount, name='changeAccount'),
     path('searchResearch', views.searchResearch, name='searchResearch'),
+    path('uploadResearch', views.uploadResearch, name='uploadResearch'),
 
     # temporary handlers
     path('encpass', views.encPasswd, name='encPasswd'),

@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
 import os
 
 HOSTNAME = 'med.mos-ai.ru'
@@ -24,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ns7a0n4*a!l(a8nn+0a#25k#gu5vc-8lvbc$m2h1gi_!m41ev8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Telegram
@@ -33,15 +32,27 @@ FeedbackTelegramChatId = "-1001398424643"
 
 # Application definition
 INSTALLED_APPS = [
-    'Slicer',
-    'Account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Slicer',
+    'Account',
+    'channels',
 ]
+
+ASGI_APPLICATION = "Frontend.routing.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+            # "hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
+        },
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,8 +82,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Frontend.wsgi.application'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+WSGI_APPLICATION = 'Frontend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
@@ -121,6 +133,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 1024*1024*50000
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1024*1024*50000
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'

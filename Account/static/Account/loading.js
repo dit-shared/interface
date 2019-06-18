@@ -5,7 +5,7 @@ $(document).ready(() => {
                 if (i == 10)
                     clearInterval(timer);
                 else {
-                    console.log($(`.show${i}`));
+                    // console.log($(`.show${i}`));
                     if ($(`.show${i}`).hasClass('showNavbar'))
                         $(`.show${i}`).css('display', 'flex').hide().fadeIn();
                     else
@@ -21,7 +21,7 @@ function reRender() {
                 if (i == 10)
                     clearInterval(timer);
                 else {
-                    console.log($(`.show${i}`));
+                    // console.log($(`.show${i}`));
                     if ($(`.show${i}`).hasClass('showNavbar'))
                         $(`.show${i}`).css('display', 'flex').hide().fadeIn();
                     else

@@ -1,5 +1,6 @@
 from django.db import models
 import hashlib, os
+from datetime import datetime
 
 def HashPassword(passwd):
     passwd += '&^@#&(*~!+)^'
@@ -33,11 +34,17 @@ class ExtendedUser(models.Model):
     def __str__(self):
         return "Extended User ({})".format(self.userID)
 
+class Chat(models.Model):
+    sender = models.IntegerField()
+    to = models.IntegerField()
+    date = models.DateTimeField(default=datetime.now)
+    message = models.CharField(max_length=256)
+
 class Feedback(models.Model):
-    user_id = models.IntegerField(default=0)
+    user_id = models.IntegerField()
     title = models.CharField(max_length=32)
     text = models.CharField(max_length=1024)
-    time = models.DateTimeField()
+    time = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
         return self.title

@@ -8,7 +8,8 @@ def buildJSONRespose(responseData):
 
 def auth(request):
 	if 'id' in request.session:
-		return HttpResponseRedirect('/account')
+		user = Users.objects.get(id=request.session["id"])
+		return HttpResponseRedirect('/home/')
 	return render(request, 'Authorize/auth.html')
 
 def login(request):

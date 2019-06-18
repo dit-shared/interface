@@ -1,5 +1,5 @@
 function searchResearch() {
-	const url = "/account/searchResearch";
+	const url = "/home/searchResearch";
 	let searchWord = $("#searchResearchInput").val();
 	
 	function csrfSafeMethod(method) {

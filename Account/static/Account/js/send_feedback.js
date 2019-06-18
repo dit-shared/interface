@@ -1,5 +1,5 @@
 function sendFeedbackForm() {
-    const url = '/account/feedback';
+    const url = '/home/feedback';
     let token = document.getElementsByName("csrfmiddlewaretoken")[0].getAttribute("value")
 
     function csrfSafeMethod(method) {

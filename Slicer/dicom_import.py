@@ -1,8 +1,4 @@
-import math
-import logging
-import tempfile
-import gdcm
-
+import math, logging, tempfile, gdcm
 import pydicom as dicom
 import numpy as np
 

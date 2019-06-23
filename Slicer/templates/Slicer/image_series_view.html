@@ -85,16 +85,21 @@
         </p>
 
         <div class="collection masks-collection">
-          <a href="#!" class="collection-item"><span class="badge">1</span>Alan</a>
-          <a href="#!" class="collection-item"><span class="new badge">4</span>Alan</a>
-          <a href="#!" class="collection-item">Alan</a>
-          <a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
-          <a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
-          <a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
-          <a href="#!" class="collection-item"><span class="badge">14</span>Alan</a>
+          <a href="#!" class="collection-item predictionMaskItem" value="">Убрать маску</a>
+
+          {% for m in masks %}
+            {% if m.processProgress == 1 %}
+              <a href="#!" class="collection-item tooltipped predictionMaskItem" data-position="bottom" data-tooltip="{{ m.maskDescription }}" value="{{ m.maskFolder }}">{{ m.maskName }}</a>
+            {% endif %}
+          {% endfor %}
+          <!-- <span class="badge">1</span> -->
         </div>
 
-        <a class="waves-effect waves-light btn-small" onclick="uploadPredictionMask()"><i class="material-icons left">file_upload</i>Загрузить маску</a>
+        <div id = "uploadButtonContainer">
+          <a class="waves-effect waves-light btn-small" onclick="uploadPredictionMask()"><i class="material-icons left">file_upload</i>Загрузить маску</a>
+        </div>
+
+        <div class = "col s10" id = "maskUploadProgressContainer"></div>
       </div>
     </div>
   </div>
@@ -160,9 +165,26 @@
     }
 
     let DICOM_PALLETE = "gray";
+    let MASK_FOLDER = "";
     let imageName = "0_gray.png";
     let previewSlice = "{{ seriesInfo.previewSlice }}";
     const SERIES_ID = {{ seriesInfo.seriesID }};
+
+    function buildImageURL(image) {
+      if (MASK_FOLDER == "") {
+        return `/media/images/{{ seriesInfo.slices_dir }}/${image}`;
+      } else {
+        return `/media/images/{{ seriesInfo.slices_dir }}/${MASK_FOLDER}/${image}`;
+      }
+    }
+
+    $(".predictionMaskItem").click(function() {
+      let $input = $( this );
+      MASK_FOLDER = $input.attr("value");
+      document.getElementById("imageBox").src = buildImageURL(imageName);
+      document.getElementById("imageLink").href = buildImageURL(imageName);
+    });
+
     $("textarea#doc_comment").val("{{seriesInfo.doctorComment}}"); 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -201,8 +223,8 @@
       }
       imageName = imageCounter - 1 + "_" + DICOM_PALLETE + '.png';
       document.getElementById("imageCounter").innerHTML = imageCounter;
-      document.getElementById("imageBox").src = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
-      document.getElementById("imageLink").href = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
+      document.getElementById("imageBox").src = buildImageURL(imageName);
+      document.getElementById("imageLink").href = buildImageURL(imageName);
 
       slider.noUiSlider.updateOptions({
         start: imageCounter,
@@ -218,8 +240,8 @@
         }
         imageName = imageCounter - 1 + "_" + DICOM_PALLETE + '.png';
         document.getElementById("imageCounter").innerHTML = imageCounter;
-        document.getElementById("imageBox").src = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
-        document.getElementById("imageLink").href = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
+        document.getElementById("imageBox").src = buildImageURL(imageName);
+        document.getElementById("imageLink").href = buildImageURL(imageName);
 
         slider.noUiSlider.updateOptions({
           start: imageCounter,
@@ -238,8 +260,8 @@
       imageCounter = image_id;
       imageName = image_id - 1 + "_" + DICOM_PALLETE + '.png';
       document.getElementById("imageCounter").innerHTML = image_id;
-      document.getElementById("imageBox").src = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
-      document.getElementById("imageLink").href = '/media/images/{{ seriesInfo.slices_dir }}/' + imageName;
+      document.getElementById("imageBox").src = buildImageURL(imageName);
+      document.getElementById("imageLink").href = buildImageURL(imageName);
 
       slider.noUiSlider.updateOptions({
         start: image_id,
@@ -247,6 +269,19 @@
 
       updateIsPreview();
     }
+</script>
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.tooltipped');
+    var instances = M.Tooltip.init(elems, options);
+  });
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+        
 </script>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"></script>
 

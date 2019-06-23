@@ -4,7 +4,6 @@ let socket;
 let timeoutWebsocketReqID;
 let uploadContainer = $("#maskUploadProgressContainer");
 
-
 function startDelayedWebsocketRequest(socketData) {
     timeoutWebsocketReqID = window.setInterval(function() {
         socket.send(JSON.stringify(socketData));
@@ -13,6 +12,19 @@ function startDelayedWebsocketRequest(socketData) {
 
 function stopDelayedWebsocketRequest() {
     window.clearInterval(timeoutWebsocketReqID);
+}
+
+function showUploadButton() {
+    $("#uploadButtonContainer").html(`
+        <a class="waves-effect waves-light btn-small" onclick="uploadPredictionMask()">
+            <i class="material-icons left">file_upload</i>
+            Загрузить маску
+        </a>
+    `);
+}
+
+function hideUploadButton() {
+    $("#uploadButtonContainer").html("");
 }
 
 function renderLoadingMask(status, progress=-1) {
@@ -59,6 +71,7 @@ function followMaskProcessProgress(response) {
                 "maskID": response["maskID"],
             }
             startDelayedWebsocketRequest(socketData);
+            hideUploadButton();
         }
         socket.onmessage = function(e) {
             let data = JSON.parse(e["data"]);
@@ -69,16 +82,16 @@ function followMaskProcessProgress(response) {
             let status = parseInt(data["status"])
 
             if (status == 1) {
-                renderLoadingMask(`Извлекаем снимки из архива... `, -1);
+                renderLoadingMask(`Извлекаем данные о исследовании... `, -1);
             } else if (status == 2) {
-                renderLoadingMask(`Обработка исследования. ${roundedProgress}%`, progress);
+                renderLoadingMask(`Накладываем маску. ${roundedProgress}%`, progress);
             } else if (status == 3){
                 renderLoadingMask(`Работаем с базой данных...`, -1);
             } else if (status == 5) {
                 renderLoadingMask("Исследование обработано. Обновляем данные...", -1);
                 stopDelayedWebsocketRequest()
                 window.setTimeout(function() {
-                    window.location = "/home/view";
+                    location.reload();
                 }, 2000);
             }
             else {
@@ -88,11 +101,12 @@ function followMaskProcessProgress(response) {
         }
         socket.onerror = function(e) {
             renderLoadingMask("Возникла ошибка на сервере. Обработка не завершена.", 0);
-            stopDelayedWebsocketRequest()
+            stopDelayedWebsocketRequest();
+            showUploadButton();
         }
         socket.onclose = function(e) {
             renderLoadingMask("Соединение разорвано. Переподключаемся...", -1);
-            stopDelayedWebsocketRequest()
+            stopDelayedWebsocketRequest();
         }
     } else {
         Swal.fire(

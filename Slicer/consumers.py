@@ -3,7 +3,7 @@ from channels.consumer import AsyncConsumer
 from multiprocessing import Process, Value
 from channels.db import database_sync_to_async
 from .slicer import SliceResearch, AddPredictionMask
-from .models import ImageSeries, PredictionMask
+from .models import ImageSeries, PredictionMask, SeriesInfo
 import asyncio, json, time
 
 SlicerProcesses = {}
@@ -77,17 +77,53 @@ class UploadPredictionMask(AsyncConsumer):
 		text = event.get("text", None)
 		if text is not None:
 			data = json.loads(text)
+
+			myID = self.scope["session"]["id"]
 			maskID = data["maskID"]
 			mask = await self.getMask(maskID)
-			if mask == None:
-				return
 			researchID = mask.seriesID
 			research = await self.getResearch(researchID)
+			resInfo = await self.getResearchInfo(researchID)
 
-			progress = Value('d', 0.0)
-			status = Value('i', 1)
-			process = Process(target=AddPredictionMask, args=(research, mask, status, progress))
-				# process.start()
+			if myID not in PredictionMaskProcesses.keys():
+				progress = Value('d', 0.0)
+				status = Value('i', 1)
+				process = Process(target=AddPredictionMask, args=(research.zipFileName,
+					resInfo, mask, status, progress))
+				process.start()
+				PredictionMaskProcesses[myID] = {
+					"process": process,
+					"status": status, 
+					"progress": progress,
+				}
+
+			status = PredictionMaskProcesses[myID]["status"].value
+			if PredictionMaskProcesses[myID]["process"].is_alive():			
+				response = {
+					"progress": PredictionMaskProcesses[myID]["progress"].value,
+					"status": status,
+				}
+
+				await self.send({
+					"type": "websocket.send",
+					"text": json.dumps(response),
+				}) 
+			else:
+				if status == 3: 
+					response = {
+						"progress": 0,
+						"status": 5,
+					}					
+				else:
+					response = {
+						"progress": 0,
+						"status": 235,
+					}
+				await self.send({
+						"type": "websocket.send",
+						"text": json.dumps(response),
+				}) 
+				del PredictionMaskProcesses[myID]
 
 	async def websocket_disconnect(self, event):
 		print("disconnected", event)
@@ -102,4 +138,10 @@ class UploadPredictionMask(AsyncConsumer):
 	def getResearch(self, id):
 		if ImageSeries.objects.filter(id=id):
 			return ImageSeries.objects.get(id=id)
+		return None
+
+	@database_sync_to_async
+	def getResearchInfo(self, id):
+		if SeriesInfo.objects.filter(seriesID=id):
+			return SeriesInfo.objects.get(seriesID=id)
 		return None

@@ -40,6 +40,11 @@ class SeriesInfo(models.Model):
     previewSlice = models.CharField(max_length=32, default="0_gray.png")
     slices_dir = models.CharField(max_length=128)
 
+    @property
+    def source_id(self):
+        return "+{}_{}".format(self.AccessionNumber, self.StudyID)
+    
+
 class ImageSeries(models.Model):
     patient_id = models.CharField(max_length=64, null=True)
     study_uid = models.CharField(max_length=64)

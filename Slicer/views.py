@@ -23,11 +23,13 @@ def image_series_view(request):
 
     if 'id' in request.GET:
         seriesInfo = SeriesInfo.objects.get(seriesID=request.GET['id'])
-        
+        masks = PredictionMask.objects.filter(seriesID=request.GET['id'])
+
         return render(request, 'Slicer/image_series_view.html', {
             'user': user,
             'extUser': extUser,
             'seriesInfo': seriesInfo,
+            'masks': masks,
         })
     return HttpResponse('Invalid request')
 
@@ -81,7 +83,7 @@ def uploadPredictionMask(request):
     seriesID = request.POST["series_id"]
     researchInfo = SeriesInfo.objects.get(seriesID=seriesID)
 
-    predict = GetCurrentPredictFromCSV(file.read(), researchInfo.SeriesInstanceUID)
+    predict = GetCurrentPredictFromCSV(file.read(), researchInfo.source_id)
     if not predict["ok"]:
         return buildJSONResponse({"ok": False, "message": predict["err"]})
 

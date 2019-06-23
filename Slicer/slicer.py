@@ -1,6 +1,7 @@
 from Frontend import settings
 import time, os, zipfile, random, string, tempfile, gdcm, json, io
 from matplotlib import pyplot as plt
+from matplotlib.patches import Ellipse
 import pydicom as dicom
 from .models import ImageSeries
 import pandas as pd
@@ -8,14 +9,13 @@ import pandas as pd
 COLOR_MAPS = ("COLORMAP_BONE", "COLORMAP_JET", "COLORMAP_HOT")
 cmaps = {"bone": plt.cm.bone, "gray": plt.cm.gray}
 
-def GetCurrentPredictFromCSV(fileBytes, seriesID):
+def GetCurrentPredictFromCSV(fileBytes, sourceID):
 	df = pd.read_csv(io.BytesIO(fileBytes), encoding='utf8')
 	if "source_id" not in df.columns:
 		return {"ok": False, "err": "Колонка 'source_id' отсутствует в файле"}
-	res = df[df.source_id == seriesID]
-	print(res.shape[0])
+	res = df[df.source_id == sourceID]
 	if res.shape[0] == 0:
-		return {"ok": False, "err": "В данном файле отсутствуют данные о исследовании %s" % seriesID}
+		return {"ok": False, "err": "В данном файле отсутствуют данные о исследовании %s" % sourceID}
 	return {"ok": True, "res": res} 
 
 
@@ -121,10 +121,41 @@ def SliceResearch(filename, status, progress):
 	ImageSeries.objects.create(dcm_meta=dicom_dict_json, slices_dir=slicesDir, zipFileName=filename)
 
 
-def AddPredictionMask(research, mask, status, progress):
+def AddPredictionMask(zipFileName, seriesInfo, mask, status, progress):
 	status.value = 1
 
-	datasets = getDicomListFromZip(research.zipFileName)
+	datasets = getDicomListFromZip(zipFileName)
+	datasetsCnt = len(datasets)
+	if datasetsCnt == 0:
+		status.value = 124
+		return
 
-	# for n, ds in enumerate(datasets)
+	status.value = 2
+
+	file_csv = open(settings.MEDIA_ROOT + "/masks/" + mask.fileName, "rb").read()
+	df = GetCurrentPredictFromCSV(file_csv, seriesInfo.source_id)["res"]
+	
+	imageDirPath = "{}/images/{}/{}".format(settings.MEDIA_ROOT, seriesInfo.slices_dir,
+		mask.maskFolder)
+	for n, ds in enumerate(datasets):
+		image = str(n) + "_{}.png"
+		for cmName, cm in cmaps.items():
+			fig = plt.figure(frameon=False, dpi=300)
+			ax = plt.Axes(fig, [0., 0., 1., 1.])
+			ax.set_axis_off()
+			fig.add_axes(ax)
+
+			ax.set_aspect('equal')
+			ax.imshow(ds.pixel_array, cmap=cm)
+
+			for i, row in df.iterrows():
+				ellipse = Ellipse(xy=(row.locX, row.locY), width=row.diamX, height=row.diamY,
+				 edgecolor="r", lw=2, fill=False)
+				ax.add_patch(ellipse)
+
+			plt.savefig(os.path.join(imageDirPath, image.format(cmName)))
+			plt.close()
+		progress.value = (n * 100) / datasetsCnt
+
+	status.value = 3
 	

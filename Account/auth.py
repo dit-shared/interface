@@ -21,7 +21,7 @@ def login(request):
 	if User.objects.filter(login=login):
 		user = User.objects.filter(login=login)[0]
 		if user.passwd == HashPassword(passwd):
-			response['redirect'] = '/account'
+			response['redirect'] = '/home'
 			response['success'] = True
 			request.session['id'] = user.id
 	response['message'] = 'Неправильный логин или пароль!'

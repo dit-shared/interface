@@ -58,6 +58,11 @@
     width: 3%;
 }
 
+.masks-collection {
+    max-height: 60%;
+    overflow-y: scroll;
+}
+
 /*.trigger_popup_fricc {
     cursor: pointer;
     font-size: 20px;

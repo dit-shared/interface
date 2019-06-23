@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from .models import ImageSeries, SeriesInfo
+from .models import ImageSeries, SeriesInfo, PredictionMask
+
+admin.site.register(PredictionMask)
 
 @admin.register(SeriesInfo)
 class SeriesInfoAdmin(admin.ModelAdmin):

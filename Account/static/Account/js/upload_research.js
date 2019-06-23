@@ -49,6 +49,8 @@ function followFile(response) {
 			renderLoadingResearche(`Извлекаем снимки из архива... `, -1);
 		} else if (status == 2) {
 			renderLoadingResearche(`Обработка исследования. ${roundedProgress}%`, progress);
+        } else if (status == 3){
+            renderLoadingResearche(`Работаем с базой данных...`, -1);
 		} else if (status == 5) {
 			renderLoadingResearche("Исследование обработано. Обновляем данные...", -1);
 			stopDelayedWebsocketRequest()

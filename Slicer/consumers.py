@@ -1,10 +1,13 @@
 # from django.contrib.auth import get_
 from channels.consumer import AsyncConsumer
 from multiprocessing import Process, Value
-from .slicer import SliceResearch
+from channels.db import database_sync_to_async
+from .slicer import SliceResearch, AddPredictionMask
+from .models import ImageSeries, PredictionMask
 import asyncio, json, time
 
 SlicerProcesses = {}
+PredictionMaskProcesses = {}
 
 class UploadResearchConsumer(AsyncConsumer):
 	async def websocket_connect(self, event):
@@ -62,3 +65,41 @@ class UploadResearchConsumer(AsyncConsumer):
 
 	async def websocket_disconnect(self, event):
 		print("disconnected", event)
+
+
+class UploadPredictionMask(AsyncConsumer):
+	async def websocket_connect(self, event):
+		await self.send({
+			"type": "websocket.accept"
+		}) 
+
+	async def websocket_receive(self, event):
+		text = event.get("text", None)
+		if text is not None:
+			data = json.loads(text)
+			maskID = data["maskID"]
+			mask = await self.getMask(maskID)
+			if mask == None:
+				return
+			researchID = mask.seriesID
+			research = await self.getResearch(researchID)
+
+			progress = Value('d', 0.0)
+			status = Value('i', 1)
+			process = Process(target=AddPredictionMask, args=(research, mask, status, progress))
+				# process.start()
+
+	async def websocket_disconnect(self, event):
+		print("disconnected", event)
+
+	@database_sync_to_async
+	def getMask(self, id):
+		if PredictionMask.objects.filter(id=id):
+			return PredictionMask.objects.get(id=id)
+		return None
+
+	@database_sync_to_async
+	def getResearch(self, id):
+		if ImageSeries.objects.filter(id=id):
+			return ImageSeries.objects.get(id=id)
+		return None

@@ -1,78 +1,90 @@
-<!doctype html>
-<html>
-	<head>
-		{% load staticfiles %}
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-		<link rel = "stylesheet" href="{% static 'Authorize/style/main.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Авторизация</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-		<script src = "{% static 'p5/p5.min.js' %}"></script>
-		<script src="{% static 'p5/addons/p5.dom.min.js' %}"></script> 
-		<script src = "{% static 'Authorize/js/p5_sketch.js' %}"></script>
-		
-		<style>
-			html, body {
-				height: 100%;
-			}
-
-			body {
-				margin: 0;
-				display: flex;
-
-				/* This centers our sketch horizontally. */
-				justify-content: center;
-
-				/* This centers our sketch vertically. */
-				align-items: center;
-			}
-		</style>
-	</head>
-	<body>
-		<div class = "animation_holder">
-
-		</div>
-		<div class = "pageWrapper valign-wrapper center-align" style = "z-index: 950;">
-			<div class="row">
-				<div class="formWrapper col s12">
-					<h3>Авторизация</h3><p></p>
-					<div class="input-field">
-						 <i class="material-icons prefix">account_circle</i>
-			            <input id="login" type="text" data-length="10">
-			            <label for="login">Username</label>
-			        </div> 
-			        <div class="input-field">
-			        	 <i class="material-icons prefix">vpn_key</i>
-			            <input id="password" type="password" data-length="10">
-			            <label for="password">Password</label>
+	{% load staticfiles %}
+<!--	<link rel="icon" type="image/png" href="{% static 'Authorize/images/icons/favicon.ico' %}"/> -->
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/vendor/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/vendor/animate/animate.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/vendor/css-hamburgers/hamburgers.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/vendor/animsition/css/animsition.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/vendor/select2/select2.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/vendor/daterangepicker/daterangepicker.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/css/main.css' %}">
+</head>
+<body style="background-color: #666666;">
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" onsubmit="return false">
+					<span class="login100-form-title p-b-43" style="font-family: Montserrat-Regular">
+						Авторизация
+					</span>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate = "Логин не введен">
+						<input id="login" class="input100" type="text" name="login" autocomplete="off">
+						<span class="focus-input100"></span>
+						<span class="label-input100">Логин</span>
 					</div>
-					{% csrf_token %}
-			        <div id = "response"></div>
-			        <div class = "row">
-			        	<div class = "col s6">
-							<p>
-						      <label>
-						        <input type="checkbox" />
-						        <span>Remember</span>
-						      </label>
-						    </p>
+					
+					
+					<div class="wrap-input100 validate-input" data-validate="Пароль не введен">
+						<input id="password" class="input100" type="password" data-length="10" name="pass" autocomplete="off">
+						<span class="focus-input100"></span>
+						<span class="label-input100">Пароль</span>
+					</div>
+
+					<div class="flex-sb-m w-full p-t-3 p-b-32">
+						<div class="contact100-form-checkbox">
+							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+							<label class="label-checkbox100" for="ckb1">
+								Оставаться в системе
+							</label>
 						</div>
-						<div class = "col s6" style="padding: 3%;">
-							<button class="btn waves-effect waves-light" onclick="sendForm()" name="send" id = "sendFormButton">Login
-							    <i class="material-icons right">send</i>
-							</button>
+
+						<div>
+							<a href="#" class="txt1">
+								Забыли пароль?
+							</a>
 						</div>
 					</div>
+			
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Войти
+						</button>
+					</div>
+				</form>
+
+				<div class="login100-more" style="background-image: url('https://rehab-first.com/wp-content/uploads/2018/03/iStock-645455526-1170x588.jpg');">
 				</div>
 			</div>
 		</div>
-		<script
-		src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
-		<script src = "{% static 'Authorize/js/index.js' %}"></script>
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script> -->
-	</body>
+	</div>
+	{% csrf_token %}
+	
+
+	
+	
+<!--===============================================================================================-->
+	<script src="{% static 'Authorize/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'Authorize/vendor/animsition/js/animsition.min.js' %}"></script>
+	<script src="{% static 'Authorize/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'Authorize/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'Authorize/vendor/select2/select2.min.js' %}"></script>
+	<script src="{% static 'Authorize/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'Authorize/vendor/daterangepicker/daterangepicker.js' %}"></script>
+	<script src="{% static 'Authorize/vendor/countdowntime/countdowntime.js' %}"></script>
+	<script src="{% static 'Authorize/js/main.js' %}"></script>
+
+</body>
 </html>

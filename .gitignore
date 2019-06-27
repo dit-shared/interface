@@ -4,4 +4,4 @@
 /media/*
 /research/*
 *.pyc
-.sqlite3
+db.sqlite3

@@ -118,5 +118,10 @@ function sendForm() {
         $(thisAlert).removeClass('alert-validate');
     }
     
+    $(".login100-more").mouseover(function(){
+
+    });
+    $(".login100-more").mouseout(function(){
+    });
 
 })(jQuery);

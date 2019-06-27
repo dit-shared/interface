@@ -18,17 +18,16 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'Authorize/css/main.css' %}">
 </head>
-<body style="background-color: #666666;">
-	
+<body style="background-color: #666666;">	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
+				<div class = "formWrapper" id = "formWrapper">
 				<form class="login100-form validate-form" onsubmit="return false">
 					<span class="login100-form-title p-b-43" style="font-family: Montserrat-Regular">
 						Авторизация
 					</span>
-					
-					
+								
 					<div class="wrap-input100 validate-input" data-validate = "Логин не введен">
 						<input id="login" class="input100" type="text" name="login" autocomplete="off">
 						<span class="focus-input100"></span>
@@ -64,18 +63,14 @@
 						</button>
 					</div>
 				</form>
-
+				</div>
 				<div class="login100-more" style="background-image: url('https://rehab-first.com/wp-content/uploads/2018/03/iStock-645455526-1170x588.jpg');">
 				</div>
 			</div>
 		</div>
 	</div>
 	{% csrf_token %}
-	
 
-	
-	
-<!--===============================================================================================-->
 	<script src="{% static 'Authorize/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'Authorize/vendor/animsition/js/animsition.min.js' %}"></script>
 	<script src="{% static 'Authorize/vendor/bootstrap/js/popper.js' %}"></script>
@@ -85,6 +80,7 @@
 	<script src="{% static 'Authorize/vendor/daterangepicker/daterangepicker.js' %}"></script>
 	<script src="{% static 'Authorize/vendor/countdowntime/countdowntime.js' %}"></script>
 	<script src="{% static 'Authorize/js/main.js' %}"></script>
+	<script src="{% static 'Authorize/js/particle-network.min.js' %}"></script>
 
 </body>
 </html>

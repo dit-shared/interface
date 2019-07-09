@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 import os
+import django
 
 HOSTNAME = 'med.mos-ai.ru'
 SERVER_IP = '163.172.157.232'
@@ -48,7 +49,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)],
+            "hosts": [("127.0.0.1", 6379)],
             # "hosts": [os.environ.get("REDIS_URL", "redis://localhost:6379")],
         },
     },

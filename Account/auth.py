@@ -12,6 +12,9 @@ def auth(request):
 		return HttpResponseRedirect('/home/')
 	return render(request, 'Authorize/auth.html')
 
+def landpage(request):
+	return render(request, "Authorize/landpage.html")
+
 def login(request):
 	response = {"success": False, }
 	if 'login' not in request.POST or 'passwd' not in request.POST:

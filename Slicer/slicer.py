@@ -132,7 +132,7 @@ def AddPredictionMask(zipFileName, seriesInfo, mask, status, progress):
 
 	status.value = 2
 
-	file_csv = open(settings.MEDIA_ROOT + "/masks/" + mask.fileName, "rb").read()
+	file_csv = open(settings.MEDIA_ROOT + "/masks_model/" + mask.fileName, "rb").read()
 	df = GetCurrentPredictFromCSV(file_csv, seriesInfo.source_id)["res"]
 	
 	imageDirPath = "{}/images/{}/{}".format(settings.MEDIA_ROOT, seriesInfo.slices_dir,

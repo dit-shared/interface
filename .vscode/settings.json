@@ -1,6 +1,7 @@
 {
-    "python.pythonPath": "venv/bin/python3.6",
+    "python.pythonPath": "C:\\Users\\suriknik\\Anaconda3\\envs\\dit-interface\\python.exe",
     "files.associations": {
         "ostream": "cpp"
-    }
+    },
+    "python.linting.enabled": false
 }

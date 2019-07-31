@@ -10,6 +10,7 @@ from Account import profile_views
 urlpatterns = [
 	path('', views.redirect),
     path('landpage/', Account_views.landpage),
+    path('feedback/', Account_views.feedback),
     path('admin/', admin.site.urls),
     path('auth/', include('Account.auth_urls')),
     path('home/', include('Account.home_urls')),

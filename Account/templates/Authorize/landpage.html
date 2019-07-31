@@ -17,6 +17,12 @@
 
     <!-- Theme Style -->
     <link rel="stylesheet" href="{% static 'LandPage/css/style.css' %}">
+
+    <style>
+       .brain-icon {
+          background-image: url({% static "Authorize/images/brain.svg" %});
+        }
+    </style>
 </head>
 <body>
 <header role="banner">
@@ -35,8 +41,8 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="services.html" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Сервисы</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown04">
-                  <a class="dropdown-item" href="#">Опухаль легких</a>
-                  <a class="dropdown-item" href="#">Опухаль в мозге</a>
+                  <a class="dropdown-item" href="#">Опухоль легких</a>
+                  <a class="dropdown-item" href="#">Опухоль в мозге</a>
                 </div>
 
               </li>
@@ -60,25 +66,26 @@
     <!-- END header -->
     
     <section class="home-slider owl-carousel">
-      <div class="slider-item" style="background-image: url({% static 'LandPage/img/slider-2.jpg' %});">
+      <div class="slider-item" style="background-image: url({% static 'Authorize/images/carusel-1.jpg' %});">
         
         <div class="container">
           <div class="row slider-text align-items-center">
             <div class="col-md-7 col-sm-12 element-animate">
               <h1>За нами будущее</h1>
-              <p>Какой-то текст</p>
+              <p>Искусственный интеллект, нейронные сети и машинное обучение быстро и прочно вошли в отрасль информатизации здравоохранения как один из ключевых драйверов и направлений развития на ближайшие годы.</p>
             </div>
           </div>
         </div>
 
       </div>
 
-      <div class="slider-item" style="background-image: url({% static 'LandPage/img/slider-1.jpg' %});">
+      <div class="slider-item" style="background-image: url('https://www.nccs.com.sg/sites/shcommonassets/Assets/conditions-treatments/images/NCCS/CT%20Lung%20Cancer%20Resized.jpg');">
         <div class="container">
           <div class="row slider-text align-items-center">
             <div class="col-md-7 col-sm-12 element-animate">
-              <h1>We Provide Health Care Solutions</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi unde impedit, necessitatibus, soluta sit quam minima expedita atque corrupti reiciendis.</p>
+              <h1>Современные решения</h1>
+              <p>Искусственный интеллект может решить проблему неправильной интерпретации медицинской информации.
+              Мы предлагаем "умные" решения для предварительной диагностики заболеваний.</p>
             </div>
           </div>
         </div>
@@ -87,7 +94,7 @@
 
     </section>
     <!-- END slider -->
-
+{% comment %} 
     
     <section class="container home-feature mb-5">
       <div class="row">
@@ -130,7 +137,7 @@
         <div class="row align-items-center">
           
           <div class="col-md-6 stretch-left-1 element-animate" data-animate-effect="fadeInLeft">
-            <a href="#" class="video"><img src="{% static 'LandPage/img/img_1.jpg' %}" alt="" class="img-fluid"></a>
+            <a href="#" class="video"><img src="https://ak5.picdn.net/shutterstock/videos/3676115/thumb/10.jpg" alt="" class="img-fluid"></a>
           </div>
           <div class="col-md-6 stretch-left-1-offset pl-md-5 pl-0 element-animate" data-animate-effect="fadeInLeft">
             <div class="row">
@@ -177,7 +184,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> {% endcomment %}
     <!-- END section -->
 
     <section class="section custom-tabs">
@@ -186,10 +193,8 @@
 
           <div class="col-md-4 border-right element-animate">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><span>01</span> Amenities</a>
-              <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>02</span> Medical Services</a>
-              <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false"><span>03</span> Patient Services</a>
-              <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><span>04</span> Expert Doctors</a>
+              <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><span>1</span> Опухоль лёгких</a>
+              <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><span>2</span> Опухоль мозга</a>
             </div>
           </div>
           <div class="col-md-1"></div>
@@ -197,32 +202,14 @@
             
             <div class="tab-content" id="v-pills-tabContent">
               <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                <span class="icon flaticon-hospital"></span>
-                <h2 class="text-primary">Amenities</h2>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-                <p>Inventore fugit error iure nisi reiciendis fugiat illo pariatur quam sequi quod iusto facilis officiis nobis sit quis molestias asperiores rem, blanditiis! Commodi exercitationem vitae deserunt qui nihil ea, tempore et quam natus quaerat doloremque.</p>
-                <p><a href="#" class="btn btn-primary">Learn More</a></p>
+                <span class="icon flaticon-lungs"></span>
+                <h2 class="text-primary">Опухоль лёгких</h2>
+                <p class="lead">Тут нужна информация о точности и функционале</p>
               </div>
               <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                <span class="icon flaticon-first-aid-kit"></span>
-                <h2 class="text-primary">Medical Services</h2>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-                <p>Inventore fugit error iure nisi reiciendis fugiat illo pariatur quam sequi quod iusto facilis officiis nobis sit quis molestias asperiores rem, blanditiis! Commodi exercitationem vitae deserunt qui nihil ea, tempore et quam natus quaerat doloremque.</p>
-                <p><a href="#" class="btn btn-primary">Learn More</a></p>
-              </div>
-              <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                <span class="icon flaticon-hospital-bed"></span>
-                <h2 class="text-primary">Patient Services</h2>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-                <p>Inventore fugit error iure nisi reiciendis fugiat illo pariatur quam sequi quod iusto facilis officiis nobis sit quis molestias asperiores rem, blanditiis! Commodi exercitationem vitae deserunt qui nihil ea, tempore et quam natus quaerat doloremque.</p>
-                <p><a href="#" class="btn btn-primary">Learn More</a></p>
-              </div>
-              <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                <span class="icon flaticon-doctor"></span>
-                <h2 class="text-primary">Expert Doctors</h2>
-                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt voluptate, quibusdam sunt iste dolores consequatur</p>
-                <p>Inventore fugit error iure nisi reiciendis fugiat illo pariatur quam sequi quod iusto facilis officiis nobis sit quis molestias asperiores rem, blanditiis! Commodi exercitationem vitae deserunt qui nihil ea, tempore et quam natus quaerat doloremque.</p>
-                <p><a href="#" class="btn btn-primary">Learn More</a></p>
+                <img src="{% static 'Authorize/images/brain.svg' %}" class = "icon" style = "margin-top: 5%; margin-bottom: 5%;" width="60" height="60" alt="image description">               
+                <h2 class="text-primary">Опухоль мозга</h2>
+                <p class="lead">Тут нужна информация о точности и функционале</p>
               </div>
             </div>
           </div>
@@ -235,126 +222,39 @@
       <div class="container">
         <div class="row justify-content-center mb-5 element-animate">
           <div class="col-md-8 text-center mb-5">
-            <h2 class="text-uppercase heading border-bottom mb-4">Our Doctors</h2>
-            <p class="mb-0 lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi unde impedit, necessitatibus, soluta sit quam minima expedita atque corrupti reiciendis.</p>
+            <h2 class="text-uppercase heading border-bottom mb-4">Функционал</h2>
+            <p class="mb-0 lead">Наша платформа позволяет дополнить работу доктора современными технологиями машинного обучения.</p>
           </div>
         </div>
         <div class="row element-animate">
           <div class="major-caousel js-carousel-1 owl-carousel">
             <div>
               <div class="media d-block media-custom text-center">
-                <img src="{% static 'LandPage/img/doctor_1.jpg' %}" alt="Image Placeholder" class="img-fluid">
+                <img src="https://ak5.picdn.net/shutterstock/videos/3676115/thumb/10.jpg" alt="Image Placeholder" class="img-fluid">
                 <div class="media-body">
-                  <h3 class="mt-0 text-black">Dr. Carl Smith</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p>
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-linkedin"></span></a>
-                  </p>
+                  <h3 class="mt-0 text-black">Пример 1</h3>
+                  <p>Тут пример из интерфейса, разметки снимка</p>
                 </div>
               </div>
             </div>
             <div>
               <div class="media d-block media-custom text-center">
-                <img src="{% static 'LandPage/img/doctor_2.jpg' %}" alt="Image Placeholder" class="img-fluid">
+                <img src="https://ak5.picdn.net/shutterstock/videos/3676115/thumb/10.jpg" alt="Image Placeholder" class="img-fluid">
                 <div class="media-body">
-                  <h3 class="mt-0 text-black">Dr. Janice Doe</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p>
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-linkedin"></span></a>
-                  </p>
+                  <h3 class="mt-0 text-black">Пример 2</h3>
+                  <p>Тут пример из интерфейса, разметки снимка</p>
                 </div>
               </div>
             </div>
             <div>
               <div class="media d-block media-custom text-center">
-                <img src="{% static 'LandPage/img/doctor_3.jpg' %}" alt="Image Placeholder" class="img-fluid">
+                <img src="https://ak5.picdn.net/shutterstock/videos/3676115/thumb/10.jpg" alt="Image Placeholder" class="img-fluid">
                 <div class="media-body">
-                  <h3 class="mt-0 text-black">Dr. Jean Doe</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p>
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-linkedin"></span></a>
-                  </p>
+                  <h3 class="mt-0 text-black">Пример 3</h3>
+                  <p>Тут пример из интерфейса, разметки снимка</p>
                 </div>
               </div>
             </div>
-            <div>
-              <div class="media d-block media-custom text-center">
-                <img src="{% static 'LandPage/img/doctor_4.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <h3 class="mt-0 text-black">Dr. Jessica Doe</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p>
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-linkedin"></span></a>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="media d-block media-custom text-center">
-                <img src="{% static 'LandPage/img/doctor_1.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <h3 class="mt-0 text-black">Dr. Carl Smith</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p>
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-linkedin"></span></a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="media d-block media-custom text-center">
-                <img src="{% static 'LandPage/img/doctor_2.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <h3 class="mt-0 text-black">Dr. Janice Doe</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p>
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-linkedin"></span></a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="media d-block media-custom text-center">
-                <img src="{% static 'LandPage/img/doctor_3.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <h3 class="mt-0 text-black">Dr. Jean Doe</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p>
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-linkedin"></span></a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="media d-block media-custom text-center">
-                <img src="{% static 'LandPage/img/doctor_4.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <h3 class="mt-0 text-black">Dr. Jessica Doe</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p>
-                    <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
-                    <a href="#" class="p-2"><span class="fa fa-linkedin"></span></a>
-                  </p>
-                </div>
-              </div>
-            </div>
-
           </div>
           <!-- END slider -->
         </div>
@@ -366,9 +266,9 @@
       <div class="container">
         <div class="row text-center justify-content-center">
           <div class="col-md-10">
-            <h2 class="heading element-animate">Experience Our Advance Facilities</h2>
-            <p class="sub-heading element-animate mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi unde impedit, necessitatibus, soluta sit quam minima expedita atque corrupti reiciendis.</p>
-            <p class="element-animate"><a href="#" class="btn btn-primary btn-lg">Get In Touch</a></p>
+            <h2 class="heading element-animate">Начать использование</h2>
+            <p class="sub-heading element-animate mb-5">Для входа в систему необходима авторизация</p>
+            <p class="element-animate"><a href="/auth/" class="btn btn-primary btn-lg">Перейти</a></p>
           </div>
         </div>
       </div>
@@ -378,127 +278,28 @@
     <section class="section bg-light">
       <div class="container">
         <div class="row justify-content-center mb-5 element-animate">
-          <div class="col-md-8 text-center mb-5">
-            <h2 class="text-uppercase heading border-bottom mb-4">News &amp; Events</h2>
-            <p class="mb-0 lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi unde impedit, necessitatibus, soluta sit quam minima expedita atque corrupti reiciendis.</p>
+          <div class="col-md-8 text-center mb-1">
+            <h2 class="text-uppercase heading">Новости</h2>
+            {% comment %} <p class="mb-0 lead">Последние новости о нашей работе</p> {% endcomment %}
           </div>
         </div>
         <div class="row element-animate">
           <div class="major-caousel js-carousel-2 owl-carousel">
             <div>
+              {% for n in news %}
               <div class="media d-block media-custom text-left">
-                <img src="{% static 'LandPage/img/img_thumb_1.jpg' %}" alt="Image Placeholder" class="img-fluid">
+                <img src="{{ n.image_src }}" alt="Image Placeholder" class="img-fluid">
                 <div class="media-body">
-                  <span class="meta-post">December 2, 2017</span>
-                  <h3 class="mt-0 text-black"><a href="#" class="text-black">Lorem ipsum dolor sit amet elit</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                  {% comment %} <span class="meta-post">{{ n.time }}</span> {% endcomment %}
+                  <h3 class="mt-0 text-black"><a href="#" class="text-black">{{ n.title }}</a></h3>
+                  <p>{{ n.short_description }}</p>
                   <p class="clearfix">
-                    <a href="#" class="float-left">Read more</a>
-                    <a href="#" class="float-right meta-chat"><span class="ion-chatbubble"></span> 8</a>
+                    <a href="" class="float-left">Читать</a>
                   </p>
                 </div>
               </div>
+              {% endfor %}
             </div>
-            <div>
-              <div class="media d-block media-custom text-left">
-                <img src="{% static 'LandPage/img/img_thumb_2.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <span class="meta-post">December 2, 2017</span>
-                  <h3 class="mt-0 text-black"><a href="#" class="text-black">Lorem ipsum dolor sit amet elit</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p class="clearfix">
-                    <a href="#" class="float-left">Read more</a>
-                    <a href="#" class="float-right meta-chat"><span class="ion-chatbubble"></span> 2</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="media d-block media-custom text-left">
-                <img src="{% static 'LandPage/img/img_thumb_3.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <span class="meta-post">December 2, 2017</span>
-                  <h3 class="mt-0 text-black"><a href="#" class="text-black">Lorem ipsum dolor sit amet elit</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p class="clearfix">
-                    <a href="#" class="float-left">Read more</a>
-                    <a href="#" class="float-right meta-chat"><span class="ion-chatbubble"></span> 5</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="media d-block media-custom text-left">
-                <img src="{% static 'LandPage/img/img_thumb_4.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <span class="meta-post">December 2, 2017</span>
-                  <h3 class="mt-0 text-black"><a href="#" class="text-black">Lorem ipsum dolor sit amet elit</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p class="clearfix">
-                    <a href="#" class="float-left">Read more</a>
-                    <a href="#" class="float-right meta-chat"><span class="ion-chatbubble"></span> 7</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div class="media d-block media-custom text-left">
-                <img src="{% static 'LandPage/img/img_thumb_1.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <span class="meta-post">December 2, 2017</span>
-                  <h3 class="mt-0 text-black"><a href="#" class="text-black">Lorem ipsum dolor sit amet elit</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p class="clearfix">
-                    <a href="#" class="float-left">Read more</a>
-                    <a href="#" class="float-right meta-chat"><span class="ion-chatbubble"></span> 1</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="media d-block media-custom text-left">
-                <img src="{% static 'LandPage/img/img_thumb_2.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <span class="meta-post">December 2, 2017</span>
-                  <h3 class="mt-0 text-black"><a href="#" class="text-black">Lorem ipsum dolor sit amet elit</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p class="clearfix">
-                    <a href="#" class="float-left">Read more</a>
-                    <a href="#" class="float-right meta-chat"><span class="ion-chatbubble"></span> 4</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="media d-block media-custom text-left">
-                <img src="{% static 'LandPage/img/img_thumb_3.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <span class="meta-post">December 2, 2017</span>
-                  <h3 class="mt-0 text-black"><a href="#" class="text-black">Lorem ipsum dolor sit amet elit</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p class="clearfix">
-                    <a href="#" class="float-left">Read more</a>
-                    <a href="#" class="float-right meta-chat"><span class="ion-chatbubble"></span> 12</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="media d-block media-custom text-left">
-                <img src="{% static 'LandPage/img/img_thumb_4.jpg' %}" alt="Image Placeholder" class="img-fluid">
-                <div class="media-body">
-                  <span class="meta-post">December 2, 2017</span>
-                  <h3 class="mt-0 text-black"><a href="#" class="text-black">Lorem ipsum dolor sit amet elit</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                  <p class="clearfix">
-                    <a href="#" class="float-left">Read more</a>
-                    <a href="#" class="float-right meta-chat"><span class="ion-chatbubble"></span> 14</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-
           </div>
           <!-- END slider -->
         </div>
@@ -507,8 +308,8 @@
     <!-- END section -->
 
     <a href="#" class="cta-link element-animate" data-animate-effect="fadeIn" data-toggle="modal" data-target="#modalAppointment">
-      <span class="sub-heading">Ready to Visit?</span>
-      <span class="heading">Make an Appointment</span>
+      {% comment %} <span class="sub-heading">Появился вопрос?</span> {% endcomment %}
+      <span class="heading">Появились вопросы?</span>
     </a>
     <!-- END cta-link -->
 
@@ -516,42 +317,36 @@
       <div class="container">
         <div class="row mb-5 element-animate">
           <div class="col-md-3 mb-5">
-            <h3>Services</h3>
+            <h3>Сервисы</h3>
             <ul class="footer-link list-unstyled">
-              <li><a href="#">Find a doctor</a></li>
-              <li><a href="#">Urgent Care</a></li>
-              <li><a href="#">Emergency Care</a></li>
-              <li><a href="#">Procedures &amp; Treatments</a></li>
-              <li><a href="#">Online Services</a></li>
+              <li><a href="#">Опухоль мозга</a></li>
+              <li><a href="#">Опухоль лёгких</a></li>
             </ul>
           </div>
           <div class="col-md-3 mb-5">
-            <h3>Latest News</h3>
+            {% comment %} <h3>Latest News</h3>
             <ul class="footer-link list-unstyled">
               <li><a href="#">News &amp; Press Releases</a></li>
               <li><a href="#">Health Care Professional News</a></li>
               <li><a href="#">Events &amp; Conferences</a></li>
-            </ul>
+            </ul> {% endcomment %}
           </div>
           <div class="col-md-3 mb-5">
-            <h3>About</h3>
+            <h3>О нас</h3>
             <ul class="footer-link list-unstyled">
-              <li><a href="#">About The Hospital</a></li>
-              <li><a href="#">Testimonials</a></li>
-              <li><a href="#">Accreditations &amp; Awards</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Feedback</a></li>
+              <li><a href="#"></a></li>
+              <li><a href="#">Технологии</a></li>
+              <li><a href="#">Статистика</a></li>
+              <li><a href="#">Обратная связь</a></li>
             </ul>
           </div>
           <div class="col-md-3 mb-5">
-            <h3>Location &amp; Contact</h3>
-            <p class="mb-5">134 Street Name, City Name Here, United States</p>
-
+            <h3>Контакты</h3>
             <h4 class="text-uppercase mb-3 h6 text-white">Email</h5>
-            <p class="mb-5"><a href="mailto:info@yourdomain.com">info@yourdomain.com</a></p>
+            <p class="mb-5"><a href="mailto:test@test.ru">test@test.ru</a></p>
             
             <h4 class="text-uppercase mb-3 h6 text-white">Phone</h5>
-            <p>+1 24 435 3533</p>
+            <p>+7 (999) 999 99-99</p>
 
           </div>
         </div>
@@ -561,7 +356,7 @@
             <hr class="border-t">
           </div>
           <div class="col-md-6 col-sm-12 copyright">
-            <p>&copy; 2018 Colorlib Medi+. Designed &amp; Developed by <a href="https://colorlib.com/">Colorlib</a></p>
+            <p>&copy; 2019 ДИТ</p>
           </div>
           <div class="col-md-6 col-sm-12 text-md-right text-sm-left">
             <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
@@ -579,7 +374,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalAppointmentLabel">Appointment</h5>
+            <h5 class="modal-title" id="modalAppointmentLabel">Обратная связь</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -587,36 +382,21 @@
           <div class="modal-body">
             <form action="#">
               <div class="form-group">
-                <label for="appointment_name" class="text-black">Full Name</label>
+                <label for="appointment_name" class="text-black">Имя</label>
                 <input type="text" class="form-control" id="appointment_name">
               </div>
               <div class="form-group">
-                <label for="appointment_email" class="text-black">Email</label>
+                <label for="appointment_email" class="text-black">Почта</label>
                 <input type="text" class="form-control" id="appointment_email">
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="appointment_date" class="text-black">Date</label>
-                    <input type="text" class="form-control" id="appointment_date">
-                  </div>    
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="appointment_time" class="text-black">Time</label>
-                    <input type="text" class="form-control" id="appointment_time">
-                  </div>
-                </div>
-              </div>
-              
-
               <div class="form-group">
-                <label for="appointment_message" class="text-black">Message</label>
+                <label for="appointment_message" class="text-black">Ваш вопрос</label>
                 <textarea name="" id="appointment_message" class="form-control" cols="30" rows="10"></textarea>
               </div>
               <div class="form-group">
-                <input type="submit" value="Send Message" class="btn btn-primary">
+                <input type="button" value="Отправить" class="btn btn-primary" onclick=send_feedback()>
               </div>
+              {% csrf_token %}
             </form>
           </div>
           
@@ -626,12 +406,13 @@
 
     <script src="{% static 'LandPage/js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'LandPage/js/popper.min.js' %}"></script>
+    <script src="{% static 'Authorize/js/feedback.js' %}"></script>
     <script src="{% static 'LandPage/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'LandPage/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'LandPage/js/bootstrap-datepicker.js' %}"></script>
     <script src="{% static 'LandPage/js/jquery.timepicker.min.js' %}"></script>
     <script src="{% static 'LandPage/js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'LandPage/js/main.js' %}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 </body>
 </html>

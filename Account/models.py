@@ -6,6 +6,16 @@ def HashPassword(passwd):
     passwd += '&^@#&(*~!+)^'
     return hashlib.sha256(passwd.encode()).hexdigest()
 
+class News(models.Model):
+    title = models.CharField(max_length=128)
+    short_description = models.CharField(max_length=128)
+    description = models.CharField(max_length=128)
+    time = models.DateTimeField(default=datetime.now, blank=True)
+    image_src = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.title
+
 class User(models.Model):
     name = models.CharField(max_length=32)
     surname = models.CharField(max_length=32)

@@ -59,7 +59,7 @@ incremental==17.5.0
 ipydatawidgets==4.0.0
 ipykernel==5.1.0
 ipyscales==0.3.0
-ipython==7.1.1
+ipython==7.16.3
 ipython-genutils==0.2.0
 ipyvolume==0.5.1
 ipywebrtc==0.4.1

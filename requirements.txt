@@ -184,7 +184,7 @@ tox==3.5.3
 tqdm==4.28.1
 traitlets==4.3.2
 traittypes==0.2.1
-Twisted==18.9.0
+Twisted==22.2.0
 typing==3.6.4
 urllib3==1.23
 uWSGI==2.0.17.1
